@@ -259,6 +259,17 @@ html[data-view="pc"] .sec p{font-size:17px}
 .start .tg button b{font-size:11px;font-weight:500;opacity:.7;font-variant-numeric:tabular-nums}
 .start .tg button:hover,.start .tg button[aria-pressed="true"]{background:var(--gold);color:var(--surface);border-color:var(--gold)}
 .start .tg button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.start .t39{all:unset;cursor:pointer;align-self:flex-start;margin-top:4px;color:var(--mile);border:1px solid color-mix(in oklab,var(--mile) 45%,transparent);border-radius:6px;padding:5px 12px;font-size:13px;font-weight:700}
+.start .t39:hover{background:color-mix(in oklab,var(--mile) 12%,transparent)}
+.start .t39:focus-visible{outline:2px solid var(--mile);outline-offset:2px}
+.l39 .it{margin-bottom:10px}
+.l39 .yrs{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.l39 .yrs button{all:unset;cursor:pointer;font-size:12.5px;color:var(--gold-ink);background:var(--gold-soft);border-radius:999px;padding:2px 9px}
+.l39 .yrs button:hover{background:var(--gold);color:var(--surface)}
+.l39 .yrs button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.l39 .none{font-size:12.5px;color:var(--muted)}
+.card.flash{animation:flash 1.6s ease}
+@keyframes flash{0%,40%{box-shadow:0 0 0 3px var(--mile)}100%{box-shadow:none}}
 .tagchip{all:unset;cursor:pointer;flex:none;background:var(--gold);color:var(--surface);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700;white-space:nowrap}
 .tagchip:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 html[data-view="phone"] .tagchip{flex:1 1 100%;text-align:center;font-size:12.5px}
@@ -474,6 +485,20 @@ const TAGS=[
  ['lee','生機的建造','生機'],
  ['lee','神聖啟示的高峯','高峯|神成為人|人成為神|神人的生活|神人該有|神人生活']
 ].map(([who,label,re])=>({who,label,re:new RegExp(re)}));
+/* 李常受弟兄 39 項：依〈主的恢復〉綱要（2022 年 2 月 6 日新北市召會特別聚會）九大類，對照長卷裏的記載（ids）；空陣列＝長卷書報中未載年份 */
+const LEE39=[
+ ['關於神',[['三一神純正的啟示',[643]],['經過過程並終極完成的三一神',[563,677,678]],['經過過程之三一神的分賜',[665,677,678]],['神新約的經綸',[591,666]]]],
+ ['關於基督',[['基督與宗教相對',[615]],['基督作召會的人位',[620,621]],['基督豐滿職事的三個時期',[680]]]],
+ ['關於那靈',[['基督成了賜生命的靈',[542,563]],['七倍加強的靈',[612,613]],['包羅萬有、複合、賜生命、內住、七倍加強、終極完成的靈，作三一神的終極完成',[563,679]],['終極完成之靈與是靈之基督神聖奧祕的範圍',[680]]]],
+ ['關於救恩',[['完整救恩法理與生機的兩面',[680]]]],
+ ['關於生命',[['聖經中生命樹的線',[457,466,614]],['藉著喫喝基督經歷並享受祂',[555,559,593]],['禱讀主話',[594,600,602]],['呼求主名',[601,608,611]],['呼吸主',[]],['生命就是經過過程的三一神分賜到變化的三部分人裏',[563]]]],
+ ['關於信徒',[['經過過程之三一神與重生之人生機的聯結',[677]],['經過過程之三一神與聖別之人的調和',[556,580]],['人在生命與性情上成為神，只是無分於神格',[675,669]],['終極完成之神與重生信徒神人二性的宇宙合併',[680]],['經歷神生機的救恩等於在基督的生命中作王',[681]]]],
+ ['關於召會',[['召會是新人',[615,618]],['規條的廢除',[]],['聖徒享受基督的豐富而成為基督的豐滿，作祂的彰顯',[563]],['召會作基督的身體，乃是三一神的生機體',[661]],['召會作基督的新婦，乃是祂的擴增',[]],['召會生機的建造',[661,676]],['召會是經過過程的神聖三一之分賜與超越基督之輸供的結果',[677]],['地方召會是手續，基督的身體是目標',[]]]],
+ ['關於召會的實行',[['普遍的申言',[611,661]],['新約福音祭司的職任',[]],['生、養、教、建',[]],['活力排',[680]],['眾聖徒的相調帶進基督身體的實際',[678]]]],
+ ['關於新耶路撒冷',[['聖經中神聖啟示的總和',[655,679]],['經過過程、終極完成之三一神與祂所揀選、救贖、重生、聖別、變化、模成、榮化之選民調和的終極完成──永世的對耦',[]],['神人二性聯調的宇宙合併',[669,680]]]]
+];
+TAGS.splice(TAGS.findIndex(t=>t.who==='lee'),0,{who:'lee',label:'真理認識進程（三十九項）',ids:new Set(LEE39.flatMap(c=>c[1].flatMap(it=>it[1])))});
+const tagHit=(t,e)=>t.ids?t.ids.has(e.i):t.re.test(e.fact+' '+e.meaning+' '+e.truth);
 let TAG=null;
 const KEYOF=new Map(); MILES.forEach((m,mi)=>m.ids.forEach(id=>KEYOF.set(id,mi)));
 
@@ -523,12 +548,12 @@ fetch('data.json').then(r=>r.json()).then(d=>{
 
 function render(){
   const q=$('#q').value.trim(), bk=$('#book').value;
-  VIEW=ALL.filter(e=>(MODE==='all'||e[MODE])&&(!TAG||TAG.re.test(e.fact+' '+e.meaning+' '+e.truth))&&(!bk||e.book===bk)&&(!q||[e.ys,e.place,e.fact,e.meaning,e.truth,e.src].join(' ').includes(q)));
+  VIEW=ALL.filter(e=>(MODE==='all'||e[MODE])&&(!TAG||tagHit(TAG,e))&&(!bk||e.book===bk)&&(!q||[e.ys,e.place,e.fact,e.meaning,e.truth,e.src].join(' ').includes(q)));
   $('#count').textContent=`${VIEW.length} 則${MODE_LABEL[MODE]||''}`;
   const groups=new Map();
   VIEW.forEach(e=>{if(!groups.has(e.k))groups.set(e.k,[]);groups.get(e.k).push(e)});
   const keys=[...groups.keys()].sort((a,b)=>a-b);
-  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．21 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>方向鍵 ← →、觸控板，或在年份列上滾滑鼠滾輪前進</li><li>在卡片欄上滾滾輪只會上下捲動；要左右移動請按住 Shift 再滾</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul>${[['lee','李常受弟兄的重要事件'],['ni','倪柝聲弟兄的重要事件']].map(([w,lab])=>`<div class="jumps ${w}"><span class="jl">⚑ ${lab}</span>${MILES.map((m,i)=>m.who===w?`<button data-jump="${i}" title="${m.title}">${m.y}<span class="js">${m.short}</span></button>`:'').join('')}</div>`).join('')}<div class="tags"><div class="tl">✦ 真理重點　<small>點一下，只看相關的記載</small></div>${[['ni','倪柝聲弟兄'],['lee','李常受弟兄']].map(([w,n])=>`<div class="tg"><span class="tn">${n}</span>${TAGS.map((t,i)=>t.who===w?`<button data-tag="${i}"${TAG===t?' aria-pressed="true"':''}>${t.label}<b>${ALL.filter(e=>t.re.test(e.fact+' '+e.meaning+' '+e.truth)).length}</b></button>`:'').join('')}</div>`).join('')}</div><button class="go" id="go">開始 →</button></section>`;
+  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．21 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>方向鍵 ← →、觸控板，或在年份列上滾滑鼠滾輪前進</li><li>在卡片欄上滾滾輪只會上下捲動；要左右移動請按住 Shift 再滾</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul>${[['lee','李常受弟兄的重要事件'],['ni','倪柝聲弟兄的重要事件']].map(([w,lab])=>`<div class="jumps ${w}"><span class="jl">⚑ ${lab}</span>${MILES.map((m,i)=>m.who===w?`<button data-jump="${i}" title="${m.title}">${m.y}<span class="js">${m.short}</span></button>`:'').join('')}</div>`).join('')}<div class="tags"><div class="tl">✦ 真理重點　<small>點一下，只看相關的記載</small></div>${[['ni','倪柝聲弟兄'],['lee','李常受弟兄']].map(([w,n])=>`<div class="tg"><span class="tn">${n}</span>${TAGS.map((t,i)=>t.who===w?`<button data-tag="${i}"${TAG===t?' aria-pressed="true"':''}>${t.label}<b>${ALL.filter(e=>tagHit(t,e)).length}</b></button>`:'').join('')}</div>`).join('')}<button class="t39" id="lee39" type="button">☰ 李常受弟兄 39 項真理對照表（九大類，附年份）</button></div><button class="go" id="go">開始 →</button></section>`;
   if(!keys.length) html+='<div class="empty">找不到符合的資料，換個關鍵字試試。</div>';
   let lastEra=-1, ci=0;
   const truthAt=new Map(), lampAt=new Map();
@@ -652,8 +677,23 @@ function showMile(i){
   $('#dbody').innerHTML=`<div class="sec"><h3>史實</h3><p>${esc(m.fact)}</p></div>${m.meaning?`<div class="sec"><h3>屬靈意義</h3><p>${esc(m.meaning)}</p></div>`:''}${m.truth?`<div class="sec tru"><h3>真理進程</h3><p>${esc(m.truth)}</p></div>`:''}<div class="sec src"><h3>出處</h3><p>${esc(m.src)}${m.note?'<br>'+esc(m.note):''}</p></div>`;
   $('.nav').hidden=true; openD();
 }
+function showLee39(){
+  curI=-1; const byI=new Map(ALL.map(e=>[e.i,e])); let n=0;
+  $('#dy').textContent='李常受弟兄 39 項真理'; $('#dp').textContent='依〈主的恢復〉綱要九大類，對照長卷記載的年份';
+  $('#dbody').innerHTML=`<div class="sec src"><p>綱要說：1952 年倪弟兄被囚，李常受弟兄接續盡職，著重於基督、那靈、生命、召會、以及基督的身體，盡職至 1997 年，所釋放的神聖啟示可歸納為九大類，凡三十九要項。綱要本身沒有年份；下面的年份是長卷所根據的書報中相關的記載，點年份可跳到那張卡片。</p></div>`+LEE39.map(([cat,items])=>`<div class="sec l39"><h3>${cat}</h3>${items.map(([name,ids])=>{n++;const es=ids.map(i=>byI.get(i)).filter(Boolean).sort((a,b)=>a.y-b.y);return `<div class="it"><b>${n}. ${esc(name)}</b><div class="yrs">${es.length?es.map(e=>`<button data-go="${e.i}" title="${esc('《'+e.book+'》')}">${esc(e.ys)}</button>`).join(''):'<span class="none">長卷書報中未載年份</span>'}</div></div>`}).join('')}</div>`).join('')+`<div class="sec src"><h3>出處</h3><p>〈主的恢復〉綱要（2022 年 2 月 6 日新北市召會特別聚會）參、二；年份見各卡片出處</p></div>`;
+  $('.nav').hidden=true; openD();
+}
+function jumpTo(i){
+  let c=track.querySelector(`.card[data-i="${i}"]`);
+  if(!c){TAG=null;$('#q').value='';$('#book').value='';const a=document.querySelector('[data-m="all"]');if(a&&a.getAttribute('aria-pressed')!=='true')a.click();render();c=track.querySelector(`.card[data-i="${i}"]`)}
+  if(!c)return; const col=c.closest('.col');
+  track.style.scrollBehavior='auto'; track.scrollLeft=col.offsetLeft-track.clientWidth/2+col.offsetWidth/2; track.style.scrollBehavior=''; onScroll();
+  c.scrollIntoView({block:'center'}); c.classList.remove('flash'); void c.offsetWidth; c.classList.add('flash');
+}
+$('#dbody').addEventListener('click',ev=>{const b=ev.target.closest('[data-go]'); if(b){closeD(); jumpTo(+b.dataset.go)}});
 function step(d){ if(curI<0)return; const n=VIEW[curI+d]; if(n){showEvent(n.i); const c=track.querySelector(`.card[data-i="${n.i}"]`); if(c){const col=c.closest('.col'); track.scrollTo({left:col.offsetLeft-track.clientWidth/2+col.offsetWidth/2}); c.scrollIntoView({block:'nearest'})}} }
 track.addEventListener('click',ev=>{
+  if(ev.target.closest('#lee39'))return showLee39();
   const c=ev.target.closest('.card'); if(c)return showEvent(+c.dataset.i);
   const mb=ev.target.closest('.mile'); if(mb)return showMile(+mb.dataset.mile);
   const l=ev.target.closest('.lamp'); if(l)return showLamp(l.dataset.lamp);
