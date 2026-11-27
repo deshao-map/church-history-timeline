@@ -446,6 +446,7 @@ MILES.forEach(m=>m.short=SHORT[m.y]||'');
 const BRIEF={1920:'十七歲在福州聽福音得救，同時蒙召',1922:'與王載夫婦擘餅，中國第一個召會',1927:'在上海開始擘餅，工作中心北移',1935:'講基督得勝的生命，帶進復興',1937:'釋放地方召會立場：一城一會',1939:'看見召會是基督的身體',1942:'上海召會反對，職事停止六年',1948:'反對者悔改，鼓嶺訓練同工',1949:'8 月 1 日台北一會所開工，年底九百人',1952:'被捕入監，一千多位負責弟兄被捕',1962:'洛杉磯特會「包羅萬有的基督」',1972:'入監二十年，為眾召會殉道',1925:'聽汪佩真姊妹講道得救，當天蒙召',1932:'北方第一個召會在李家客廳興起',1933:'接倪弟兄的信，辭職全時間事奉',1943:'受日本人逼迫下監，出監患肺病',1958:'在洛杉磯首次講「神人調和」',1974:'十一年完成新約生命讀經',1984:'回台北改制，從大聚會轉到小排',1994:'神成為人，使人成為神'};
 MILES.forEach(m=>m.brief=BRIEF[m.y]||'');
 const TAGS=[
+ ['ni','真理認識進程（五十三項）','倪弟兄所領受的啟示'],
  ['ni','得救的證實','得救的證實|知道得救|得救的確證'],
  ['ni','受浸與擘餅','受浸|擘餅|主的桌子'],
  ['ni','脫離宗派','脫離宗派|脫離公會|宗派之罪'],
@@ -527,7 +528,7 @@ function render(){
   const groups=new Map();
   VIEW.forEach(e=>{if(!groups.has(e.k))groups.set(e.k,[]);groups.get(e.k).push(e)});
   const keys=[...groups.keys()].sort((a,b)=>a-b);
-  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．20 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>方向鍵 ← →、觸控板，或在年份列上滾滑鼠滾輪前進</li><li>在卡片欄上滾滾輪只會上下捲動；要左右移動請按住 Shift 再滾</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul>${[['lee','李常受弟兄的重要事件'],['ni','倪柝聲弟兄的重要事件']].map(([w,lab])=>`<div class="jumps ${w}"><span class="jl">⚑ ${lab}</span>${MILES.map((m,i)=>m.who===w?`<button data-jump="${i}" title="${m.title}">${m.y}<span class="js">${m.short}</span></button>`:'').join('')}</div>`).join('')}<div class="tags"><div class="tl">✦ 真理重點　<small>點一下，只看相關的記載</small></div>${[['ni','倪柝聲弟兄'],['lee','李常受弟兄']].map(([w,n])=>`<div class="tg"><span class="tn">${n}</span>${TAGS.map((t,i)=>t.who===w?`<button data-tag="${i}"${TAG===t?' aria-pressed="true"':''}>${t.label}<b>${ALL.filter(e=>t.re.test(e.fact+' '+e.meaning+' '+e.truth)).length}</b></button>`:'').join('')}</div>`).join('')}</div><button class="go" id="go">開始 →</button></section>`;
+  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．21 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>方向鍵 ← →、觸控板，或在年份列上滾滑鼠滾輪前進</li><li>在卡片欄上滾滾輪只會上下捲動；要左右移動請按住 Shift 再滾</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul>${[['lee','李常受弟兄的重要事件'],['ni','倪柝聲弟兄的重要事件']].map(([w,lab])=>`<div class="jumps ${w}"><span class="jl">⚑ ${lab}</span>${MILES.map((m,i)=>m.who===w?`<button data-jump="${i}" title="${m.title}">${m.y}<span class="js">${m.short}</span></button>`:'').join('')}</div>`).join('')}<div class="tags"><div class="tl">✦ 真理重點　<small>點一下，只看相關的記載</small></div>${[['ni','倪柝聲弟兄'],['lee','李常受弟兄']].map(([w,n])=>`<div class="tg"><span class="tn">${n}</span>${TAGS.map((t,i)=>t.who===w?`<button data-tag="${i}"${TAG===t?' aria-pressed="true"':''}>${t.label}<b>${ALL.filter(e=>t.re.test(e.fact+' '+e.meaning+' '+e.truth)).length}</b></button>`:'').join('')}</div>`).join('')}</div><button class="go" id="go">開始 →</button></section>`;
   if(!keys.length) html+='<div class="empty">找不到符合的資料，換個關鍵字試試。</div>';
   let lastEra=-1, ci=0;
   const truthAt=new Map(), lampAt=new Map();
