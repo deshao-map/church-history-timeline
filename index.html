@@ -93,17 +93,16 @@ body[data-mode="truth"] .card .fact{color:var(--gold-ink);font-weight:500}
 :root{--mile:#b8392c;--mile-ink:#fff;--mile-soft:#f6e1dd}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--mile:#d5604f;--mile-ink:#1a0d0a;--mile-soft:#3a1d18}}
 :root[data-theme="dark"]{--mile:#d5604f;--mile-ink:#1a0d0a;--mile-soft:#3a1d18}
-.mile{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:8px;background:var(--mile);color:var(--mile-ink);border-radius:8px;padding:6px 10px 6px 8px;box-shadow:var(--shadow)}
-.mile svg{width:22px;height:26px;flex:none}
-.mile b{display:block;font-family:var(--font-display);font-weight:900;font-size:15px;line-height:1.25}
-.mile small{display:block;font-size:11.5px;opacity:.9}
+.mile{all:unset;cursor:pointer;display:flex;align-items:center;gap:6px;margin-top:3px;font-size:12.5px;font-weight:700;color:var(--mile);line-height:1.3}
+.mile i{flex:none;width:7px;height:7px;border-radius:50%;background:var(--mile)}
+.mile span{border-bottom:1px solid color-mix(in oklab,var(--mile) 40%,transparent)}
+.mile:hover span{border-bottom-color:var(--mile)}
 .mile:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.col.milecol{background:color-mix(in oklab,var(--mile) 14%,var(--bg));box-shadow:inset 4px 0 0 var(--mile)}
-.col.milecol .axis .dot{border-color:var(--mile);background:var(--mile);width:17px;height:17px;margin-top:10px}
+.col.milecol .axis .dot{border-color:var(--mile);background:var(--mile)}
 .col.milecol .yr{color:var(--mile)}
-.card.key{border-left:5px solid var(--mile)}
-.card .kb{background:var(--mile);color:var(--mile-ink);border-radius:4px;padding:0 6px;font-weight:700}
-.mini .pin{position:absolute;top:-1px;bottom:-1px;width:3px;margin-left:-1px;background:var(--mile);padding:0;border:0;pointer-events:none}
+.card.key{border-left-color:var(--mile)}
+.card.key .when{color:var(--mile)}
+.mini .pin{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--mile);opacity:.85;padding:0;border:0;pointer-events:none}
 :root{--ni:#2c5aa0;--ni-ink:#fff}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ni:#7ea2e6;--ni-ink:#0c1424}}
 :root[data-theme="dark"]{--ni:#7ea2e6;--ni-ink:#0c1424}
@@ -177,7 +176,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   .lanes{min-height:0;padding:8px 10px 0;gap:4px}
   .lamp{font-size:13px}.lamp svg{width:24px;height:28px}
   .truth{font-size:11px}
-  .mile{padding:4px 8px 4px 6px}.mile b{font-size:13.5px}.mile small{font-size:10.5px}.mile svg{width:18px;height:22px}
+  .mile{font-size:11.5px;margin-top:1px}
   .axis{padding:2px 10px 6px}
   .axis::before{top:16px}
   .axis .dot{width:11px;height:11px;margin:8px 0 4px}
@@ -291,12 +290,12 @@ const TRUTHS=[
  [1987,'家聚會、排聚會','1987 年']
 ].map(([y,label,who])=>({y,label,who}));
 const MILES=[
- {y:1949,title:'李弟兄在台灣開工',sub:'1949 年 8 月 1 日．台北一會所',
+ {y:1949,title:'李常受弟兄在台灣開工',sub:'1949 年 8 月 1 日．台北一會所',
   fact:'1949 年 4 月 28 日，倪弟兄打電報要李弟兄把上海會所的建造交出去；4 月 30 日李弟兄到台灣，撇下一切，隻身上飛機，這是他末次離開大陸。8 月 1 日在台北一會所正式開工，舉行第一次特別聚會；到年底從三十多人增加到九百人。',
   meaning:'倪弟兄說，有人出去，地上就仍會有東西留下。台灣工作的正式開始：不摸公會，積極傳福音、講生命的道。',
   note:'《重建》另說 1948 年 8 月在台北開工，兩說並存。',
   src:'《歷程》第17篇；《正當教會生活的恢復》第十八篇；《主恢復當前的進展》第一章；《歷史與啟示》第10、15篇'},
- {y:1962,title:'李弟兄在美國開工',sub:'1962 年．洛杉磯',
+ {y:1962,title:'李常受弟兄在美國開工',sub:'1962 年．洛杉磯',
   fact:'1960 年李弟兄到美國，1961 年 5 月底開始用英語講道。1962 年他取消台北特會，留在美國開工；與英格斯、馬健源在張宜綸家跪禱三週；12 月 21 日起在洛杉磯舉行十天特會「包羅萬有的基督」。',
   meaning:'美國工作正式開始，始於禱告與靈；主的恢復從此進入英語世界。',
   truth:'包羅萬有的基督；操練靈、人的靈',
@@ -304,7 +303,7 @@ const MILES=[
   src:'《歷史與啟示》第14、20、24篇；《劃時代的帶領》；《重建》第3、9、10篇'}
 ].map(m=>({...m,who:'lee',tag:'開工',ids:m.y===1949?[506,511,520]:[574,577,583]}));
 const NI=[
- [1920,'倪弟兄得救','1920 年．福州，十七歲',[223,224,226],
+ [1920,'倪柝聲弟兄得救','1920 年．福州，十七歲',[223,224,226],
   '1920 年余慈度姊妹在福州傳福音，倪弟兄的母親先得救；倪弟兄去聽，被主抓住得救，當晚夢見主釘十字架，同時蒙召。他本來準備留美，若早去兩個月就遇不見余慈度。',
   '主恢復在中國的起點；書中說主被歐美的亂「逼」到中國這塊處女地。','得救的證實','《歷史與啟示》第1、2篇；《歷程》第15、16篇；《正當教會生活的恢復》第十一、十三篇'],
  [1922,'福州開始擘餅','1922 年．福州，第一個召會',[240,242,244],
@@ -328,10 +327,10 @@ const NI=[
  [1948,'恢復盡職與鼓嶺訓練','1948 年．福州、上海、鼓嶺',[482,483,484,488],
   '華北的復興流到上海，反對者幾乎全部懊悔；3 月倪弟兄在福州續講「約櫃的歷史」，停了六年的職事恢復。5～10 月在鼓嶺訓練八十多位同工，信息後成《教會的事務》、《人的破碎與靈的出來》。',
   '復興被加強、擴大，成為「大爆炸」；同工集中、聖徒移民出去。','外面人的破碎以釋放靈；耶路撒冷路線；工作的區域','《歷史與啟示》第8、10、14、24篇；《歷程》第17篇；《正當教會生活的恢復》第十三、十五、十七、十八篇'],
- [1952,'倪弟兄被捕下監','1952 年．上海',[532,534,535],
+ [1952,'倪柝聲弟兄被捕下監','1952 年．上海',[532,534,535],
   '共產黨扣留倪弟兄，後公開控訴；各地一千多位負責弟兄被捕。1956 年被判十五年徒刑，一直留在監裏直到去世。',
   '從 1922 到 1952 年下監，三十年間從《聚會的生活》、《工作的再思》、《教會的路》可看出他一直沒有改變。','','《歷史與啟示》第2篇；《歷程》第17篇；《正當教會生活的恢復》第十三、十五、十九篇'],
- [1972,'倪弟兄在獄中去世','1972 年 6 月初',[625,627],
+ [1972,'倪柝聲弟兄在獄中去世','1972 年 6 月初',[625,627],
   '入監二十年後死在獄中；李弟兄相信是死於他帶了將近四十年的心臟病。沒有孩子，沒有遺囑，什麼都沒留下，卻留下眾召會與許多屬靈的豐富。',
   '書中稱他為真正的殉道者，為眾召會殉道，向主忠誠沒有變節。','','《歷史與啟示》第1、2篇；《正當教會生活的恢復》第十四、十五、十七、十八篇']
 ].map(([y,title,sub,ids,fact,meaning,truth,src])=>({y,title,sub,ids,fact,meaning,truth,src,note:'',who:'ni',tag:'倪弟兄'}));
@@ -379,7 +378,7 @@ function render(){
   const groups=new Map();
   VIEW.forEach(e=>{if(!groups.has(e.k))groups.set(e.k,[]);groups.get(e.k).push(e)});
   const keys=[...groups.keys()].sort((a,b)=>a-b);
-  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．15 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>滑鼠滾輪、觸控板或方向鍵 ← → 前進</li><li>每一欄可上下捲動，看同一年的所有事件</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul>${[['lee','李弟兄開工'],['ni','倪弟兄的重要事件']].map(([w,lab])=>`<div class="jumps ${w}"><span class="jl">⚑ ${lab}</span>${MILES.map((m,i)=>m.who===w?`<button data-jump="${i}" title="${m.title}">${w==='lee'?m.title.replace('李弟兄在','').replace('開工','')+' ':''}${m.y}</button>`:'').join('')}</div>`).join('')}<button class="go" id="go">開始 →</button></section>`;
+  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．15 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>滑鼠滾輪、觸控板或方向鍵 ← → 前進</li><li>每一欄可上下捲動，看同一年的所有事件</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul>${[['lee','李常受弟兄開工'],['ni','倪柝聲弟兄的重要事件']].map(([w,lab])=>`<div class="jumps ${w}"><span class="jl">⚑ ${lab}</span>${MILES.map((m,i)=>m.who===w?`<button data-jump="${i}" title="${m.title}">${w==='lee'?m.title.replace('李常受弟兄在','').replace('開工','')+' ':''}${m.y}</button>`:'').join('')}</div>`).join('')}<button class="go" id="go">開始 →</button></section>`;
   if(!keys.length) html+='<div class="empty">找不到符合的資料，換個關鍵字試試。</div>';
   let lastEra=-1, ci=0;
   const truthAt=new Map(), lampAt=new Map();
@@ -396,8 +395,8 @@ function render(){
     const evs=groups.get(k);
     const lamps=(lampAt.get(k)||[]).map(n=>`<button class="lamp" data-lamp="${n}">${lampSvg()}<span>${n}<br><small>${LAMPS[n].mean}</small></span></button>`).join('');
     const truths=(truthAt.get(k)||[]).map(i=>`<button class="truth" data-t="${i}" title="${esc(TRUTHS[i].who)}"><i>✦</i><span>${esc(TRUTHS[i].label)}</span></button>`).join('');
-    const mi=mileAt.get(k), mile=mi===undefined?'':`<button class="mile ${MILES[mi].who}" data-mile="${mi}">${flagSvg()}<span><b>${MILES[mi].title}</b><small>${MILES[mi].who==='ni'&&!MILES[mi].title.includes('倪')?'倪弟兄｜':''}${MILES[mi].sub}</small></span></button>`;
-    html+=`<section class="col${mile?' milecol '+MILES[mi].who:''}" data-era="${ei}" data-k="${k}"${mile?` data-mile="${mi}"`:''} style="--era:${era.hue}"><div class="lanes">${mile}${lamps}${truths}</div><div class="axis"><div class="dot"></div><div class="yr">${yLabel(k)}</div></div><div class="cards">${evs.map(cardHtml).join('')}</div></section>`;
+    const mi=mileAt.get(k), mile=mi===undefined?'':`<button class="mile" data-mile="${mi}" title="${MILES[mi].sub}"><i></i><span>${MILES[mi].who==='ni'&&!MILES[mi].title.includes('倪柝聲')?'倪柝聲弟兄．':''}${MILES[mi].title}</span></button>`;
+    html+=`<section class="col${mile?' milecol '+MILES[mi].who:''}" data-era="${ei}" data-k="${k}"${mile?` data-mile="${mi}"`:''} style="--era:${era.hue}"><div class="lanes">${lamps}${truths}</div><div class="axis"><div class="dot"></div><div class="yr">${yLabel(k)}</div>${mile}</div><div class="cards">${evs.map(cardHtml).join('')}</div></section>`;
   });
   track.innerHTML=html;
   COLS=[...track.querySelectorAll('.col')];
@@ -409,7 +408,7 @@ function render(){
   const go=$('#go'); if(go) go.onclick=()=>{const c=track.querySelector('.chap');if(c)track.scrollTo({left:c.offsetLeft-16})};
 }
 function cardHtml(e){
-  const km=KEYOF.get(e.i), key=km!==undefined, kc=key?` key ${MILES[km].who}`:'', kb=key?`<span class="kb">⚑ ${MILES[km].tag}</span>`:'';
+  const km=KEYOF.get(e.i), key=km!==undefined, kc=key?` key ${MILES[km].who}`:'', kb='';
   if(MODE==='all') return `<button class="card${kc}" data-i="${e.i}"><div class="meta">${kb}<span class="when">${esc(e.ys)}</span>${e.place?`<span>${esc(e.place)}</span>`:''}</div><div class="fact">${esc(e.fact)}</div>${e.meaning?`<div class="part mean"><div class="lab">屬靈意義</div><div class="txt">${esc(e.meaning)}</div></div>`:''}${e.truth?`<div class="part tru"><div class="lab">✦ 真理進程</div><div class="txt">${esc(e.truth)}</div></div>`:''}<div class="foot"><span class="book">《${esc(e.book)}》</span></div></button>`;
   const lab=MODE==='fact'?'':`<div class="lab">${MODE_LABEL[MODE]}</div>`;
   return `<button class="card${kc}" data-i="${e.i}"><div class="meta">${kb}<span class="when">${esc(e.ys)}</span>${e.place?`<span>${esc(e.place)}</span>`:''}</div>${lab}<div class="fact">${esc(e[MODE])}</div><div class="foot"><span class="book">《${esc(e.book)}》</span>${MODE!=='truth'&&e.truth?'<span class="tr">✦ 真理</span>':''}</div></button>`;
