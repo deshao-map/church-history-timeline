@@ -1,0 +1,340 @@
+<meta charset="utf-8">
+<title>召會歷史長卷</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;700;900&display=swap">
+<style>
+/* Layout: one horizontal scroll (a long scroll of history); each year is a column — lampstand lane, truth lane, axis, event cards; era chapters open each age. */
+:root{
+  --bg:#e9edf1; --surface:#ffffff; --ink:#17202e; --muted:#5a6476; --line:#c4ccd7;
+  --gold:#a8730a; --gold-soft:#f3e3b8; --gold-ink:#5c3f00; --shadow:0 1px 2px rgba(20,30,50,.08),0 4px 14px rgba(20,30,50,.06);
+  --font-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --colw:288px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10151e; --surface:#1a2130; --ink:#e6eaf1; --muted:#9aa5b8; --line:#33405a;
+  --gold:#e3b04b; --gold-soft:#3d3018; --gold-ink:#f6dc9c; --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10151e; --surface:#1a2130; --ink:#e6eaf1; --muted:#9aa5b8; --line:#33405a;
+  --gold:#e3b04b; --gold-soft:#3d3018; --gold-ink:#f6dc9c; --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:14px;line-height:1.6;display:flex;flex-direction:column;overflow:hidden}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding-block:10px 8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));border-bottom:1px solid var(--line);background:var(--bg)}
+.brand{display:flex;align-items:baseline;gap:12px;min-width:0;flex:1 1 280px}
+.brand h1{font-family:var(--font-display);font-weight:900;font-size:22px;margin:0;letter-spacing:.06em;white-space:nowrap}
+.now{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.now b{color:var(--ink);font-weight:700}
+.tools{display:flex;gap:8px;flex-wrap:wrap;flex:1 1 300px;justify-content:flex-end}
+.tools input,.tools select{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:5px 10px;min-width:0}
+.tools input{flex:1 1 140px;max-width:220px}
+.tools select{flex:0 1 200px}
+.count{font-size:12px;color:var(--muted);align-self:center;white-space:nowrap}
+
+/* track */
+.track{flex:1;min-height:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;overscroll-behavior-x:contain;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media (prefers-reduced-motion:reduce){.track{scroll-behavior:auto}}
+.col{flex:0 0 var(--colw);display:flex;flex-direction:column;min-height:0;position:relative;background:color-mix(in oklab,var(--era) 9%,var(--bg))}
+.lanes{flex:0 0 auto;padding:10px 12px 0;display:flex;flex-direction:column;gap:6px;min-height:92px;justify-content:flex-end}
+.axis{flex:0 0 auto;position:relative;padding:4px 12px 10px}
+.axis::before{content:"";position:absolute;left:0;right:0;top:22px;height:3px;background:color-mix(in oklab,var(--era) 60%,var(--line))}
+.axis .dot{position:relative;width:13px;height:13px;border-radius:50%;background:var(--surface);border:3px solid color-mix(in oklab,var(--era) 75%,var(--ink));margin:12px 0 6px}
+.yr{font-family:var(--font-display);font-weight:900;font-size:26px;line-height:1.1;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.yr small{font-size:13px;font-weight:500;color:var(--muted);margin-right:4px}
+.cards{flex:1;min-height:0;overflow-y:auto;padding:4px 12px 16px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin}
+.card{all:unset;box-sizing:border-box;display:block;cursor:pointer;background:var(--surface);border-radius:8px;padding:10px 12px;box-shadow:var(--shadow);border-left:3px solid color-mix(in oklab,var(--era) 70%,var(--surface))}
+.card:hover{transform:translateY(-1px)}
+.card:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.card .meta{display:flex;flex-wrap:wrap;gap:4px 8px;font-size:11.5px;color:var(--muted);margin-bottom:4px}
+.card .meta .when{color:var(--ink);font-weight:500}
+.card .fact{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;font-size:13.5px}
+.card .foot{display:flex;justify-content:space-between;gap:8px;margin-top:6px;font-size:11px;color:var(--muted)}
+.card .tr{color:var(--gold);font-weight:700;white-space:nowrap}
+.book{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+/* lanes: lamps + truths */
+.lamp{all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--gold-ink)}
+.lamp svg{width:22px;height:34px;flex:none}
+.lamp .flame{fill:var(--gold);transform-origin:50% 100%;transition:transform .5s,opacity .5s;opacity:.35;transform:scale(.6)}
+.col.lit .lamp .flame{opacity:1;transform:scale(1)}
+@media (prefers-reduced-motion:no-preference){.col.lit .lamp .flame{animation:flick 2.4s ease-in-out infinite}}
+@keyframes flick{0%,100%{transform:scale(1)}50%{transform:scale(1.08,.94)}}
+.lamp small{font-family:var(--font-body);font-weight:400;font-size:11.5px;color:var(--muted)}
+.truth{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;max-width:100%;background:var(--gold-soft);color:var(--gold-ink);border:1px solid color-mix(in oklab,var(--gold) 45%,transparent);border-radius:999px;padding:2px 10px 2px 4px;font-size:12px;font-weight:500}
+.truth i{font-style:normal;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--gold);color:var(--surface);font-size:10px;font-weight:700;flex:none}
+.truth span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* era chapter */
+.chap{flex:0 0 min(360px,86vw);padding:28px 22px;display:flex;flex-direction:column;gap:12px;background:color-mix(in oklab,var(--era) 22%,var(--bg));border-left:4px solid color-mix(in oklab,var(--era) 70%,var(--ink));overflow-y:auto}
+.chap .no{font-size:12px;letter-spacing:.2em;color:var(--muted)}
+.chap h2{font-family:var(--font-display);font-weight:900;font-size:30px;line-height:1.25;margin:0;text-wrap:balance}
+.chap .span{font-family:var(--font-display);font-size:16px;color:color-mix(in oklab,var(--era) 55%,var(--ink))}
+.chap p{margin:0;max-width:34em}
+.chap .ch{font-size:12.5px;color:var(--muted)}
+.start{flex:0 0 min(420px,90vw);padding:28px 24px;display:flex;flex-direction:column;justify-content:center;gap:14px;overflow-y:auto}
+.start h2{font-family:var(--font-display);font-weight:900;font-size:34px;line-height:1.2;margin:0}
+.start h2{font-size:30px;line-height:1.35;text-wrap:balance}
+.start .cite{font-size:13px;color:var(--gold-ink);margin-top:-6px}
+.start p{margin:0;max-width:34em;color:var(--muted)}
+.start .go{all:unset;cursor:pointer;align-self:flex-start;background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:6px;font-weight:700}
+.start ul{margin:0;padding-left:1.2em;color:var(--muted)}
+.empty{flex:0 0 min(420px,90vw);padding:40px 24px;color:var(--muted)}
+
+/* bottom: truth collection + minimap */
+.bottom{border-top:1px solid var(--line);background:var(--bg);padding-block:6px calc(8px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:6px}
+.collect{display:flex;align-items:center;gap:10px;min-width:0}
+.collect .lbl{font-size:12px;color:var(--muted);white-space:nowrap}
+.collect .lbl b{color:var(--gold);font-size:15px;font-variant-numeric:tabular-nums}
+.gems{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;min-width:0;flex:1}
+.gem{all:unset;cursor:pointer;flex:none;width:14px;height:14px;border-radius:3px;transform:rotate(45deg);background:transparent;border:1.5px solid var(--line);transition:background .3s,border-color .3s,transform .3s}
+.gem.on{background:var(--gold);border-color:var(--gold);transform:rotate(45deg) scale(1.1)}
+.gem:focus-visible{outline:2px solid var(--gold)}
+.mini{position:relative;height:22px;display:flex;border-radius:4px;overflow:hidden;cursor:pointer;user-select:none}
+.mini div{height:100%;background:color-mix(in oklab,var(--era) 45%,var(--bg));border-right:1px solid var(--bg);font-size:10.5px;line-height:22px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px;min-width:0}
+.mini .view{position:absolute;top:0;bottom:0;border:2px solid var(--ink);border-radius:4px;background:transparent;padding:0;pointer-events:none}
+.tip{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,15,25,.35);z-index:20}
+.drawer{position:fixed;z-index:21;right:0;top:0;bottom:0;width:min(460px,100%);background:var(--surface);box-shadow:-8px 0 30px rgba(0,0,0,.18);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
+.drawer header{display:flex;align-items:flex-start;gap:12px;padding:18px 20px 10px;border-bottom:1px solid var(--line)}
+.drawer header .h{flex:1;min-width:0}
+.drawer .dy{font-family:var(--font-display);font-weight:900;font-size:24px;line-height:1.25}
+.drawer .dp{color:var(--muted);font-size:13px}
+.drawer .x{all:unset;cursor:pointer;font-size:22px;line-height:1;padding:4px 8px;border-radius:6px}
+.drawer .x:hover{background:var(--bg)}
+.drawer .body{overflow-y:auto;padding:16px 20px 28px;display:flex;flex-direction:column;gap:16px}
+.sec h3{margin:0 0 4px;font-size:12px;letter-spacing:.14em;color:var(--muted);font-weight:700}
+.sec p{margin:0;font-size:15px;line-height:1.75}
+.sec.tru p{color:var(--gold-ink);background:var(--gold-soft);padding:8px 12px;border-radius:6px}
+.sec.src p{font-size:13px;color:var(--muted)}
+.nav{display:flex;gap:8px;padding:10px 20px;border-top:1px solid var(--line)}
+.nav button{all:unset;cursor:pointer;flex:1;text-align:center;padding:8px;border:1px solid var(--line);border-radius:6px;font-size:13px}
+.nav button:disabled{opacity:.4;cursor:default}
+@media (max-width:600px){
+  :root{--colw:min(78vw,270px)}
+  .brand h1{font-size:19px}
+  .yr{font-size:22px}
+  .drawer{top:auto;height:82%;width:100%;border-radius:14px 14px 0 0;padding-right:0}
+}
+</style>
+
+<header class="top">
+  <div class="brand"><h1>召會歷史長卷</h1><div class="now" id="now" aria-live="polite"></div></div>
+  <div class="tools">
+    <input id="q" type="search" placeholder="搜尋人物、地點、真理" aria-label="搜尋">
+    <select id="book" aria-label="依書報篩選"><option value="">全部書報</option></select>
+    <span class="count" id="count"></span>
+  </div>
+</header>
+<main class="track" id="track" tabindex="0" aria-label="時間軸，可左右捲動"></main>
+<footer class="bottom">
+  <div class="collect"><span class="lbl">真理恢復 <b id="litn">0</b> / <span id="alln">0</span></span><div class="gems" id="gems"></div></div>
+  <div class="mini" id="mini" aria-label="時代縮圖，點擊可跳轉"></div>
+  <div class="tip" id="tip">往右捲動，沿著年代前進；點卡片看屬靈意義與出處，點燈臺看七個召會。</div>
+</footer>
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="dy">
+  <header><div class="h"><div class="dy" id="dy"></div><div class="dp" id="dp"></div></div><button class="x" id="dx" aria-label="關閉">×</button></header>
+  <div class="body" id="dbody"></div>
+  <div class="nav"><button id="dprev">← 上一則</button><button id="dnext">下一則 →</button></div>
+</aside>
+
+<script>
+const ERAS=[
+ {from:-Infinity,to:0,name:'永遠與舊約',span:'已過的永遠～主前',hue:'#7b6fb0',desc:'召會從已過的永遠就在神的計劃裏，卻一直隱藏在神裏面；舊約只有預表，沒有明文。神的異象一代一代傳下來，一個時代只有一個異象。'},
+ {from:0,to:96,name:'使徒時代',span:'主後 1～95 年',hue:'#c4733b',desc:'五旬節召會產生，福音從耶路撒冷傳到外邦。荒涼也從使徒時代就開始：分門別類、假使徒、異端。保羅完成神的話，約翰以補網的職事作恢復。'},
+ {from:96,to:313,name:'教父與逼迫',span:'96～312 年',hue:'#b5523b',lamps:['以弗所','士每拿'],desc:'離棄起初的愛心；居間階級出現，監督被放在長老之上。羅馬帝國的逼迫中，召會顯出復活、耐死的性質。'},
+ {from:313,to:1500,name:'變質與黑暗時期',span:'313～十五世紀',hue:'#6f6a5e',lamps:['別迦摩','推雅推喇'],desc:'康士坦丁接受基督教，召會與世界聯婚；羅馬天主教成形，教皇制度確立，聖經被封鎖。然而歷代仍有隱藏的見證人。'},
+ {from:1500,to:1825,name:'改教與內裏生命',span:'十六世紀～1824 年',hue:'#3f7f6e',lamps:['撒狄'],desc:'路德恢復因信稱義和公開的聖經；奧祕派認識內裏生命；摩爾維亞弟兄們實行召會生活；衛斯理講聖潔的生活。從壞往好恢復，但還沒有回到起初。'},
+ {from:1825,to:1920,name:'弟兄們與十九世紀',span:'1825～1919 年',hue:'#3d6fa3',lamps:['非拉鐵非','老底嘉'],desc:'弟兄們興起，廢除居間階級，聖經被解開，回到使徒的正統；後來注重道理、一再分裂。憑信而活、奉獻、十字架、屬靈爭戰的線也一一出來。'},
+ {from:1920,to:1949,name:'主在中國的恢復',span:'1920～1948 年',hue:'#a23e48',desc:'倪柝聲弟兄得救，主的恢復在中國開始：受浸、擘餅、脫離宗派、一地一會、身體、配搭、移民。煙台復興與鼓嶺訓練。'},
+ {from:1949,to:1962,name:'台灣與東南亞',span:'1949～1961 年',hue:'#2e8a8a',desc:'主的恢復轉到台灣、香港與南洋，福音大開，召會快速繁增；也經歷試煉，從中學到功課。'},
+ {from:1962,to:1984,name:'美國與全地',span:'1962～1983 年',hue:'#5a6fb8',desc:'主的恢復到美國，再到全地。包羅萬有的基督、神的經綸、禱讀、呼求主名、七倍加強的靈、召會是新人。生命讀經與恢復本開始。'},
+ {from:1984,to:9000,name:'新路與風波',span:'1984 年以後',hue:'#8a5a9e',desc:'改制、走神命定的路：叩門傳福音、家聚會、排聚會。主恢復中也經歷風波，再往前。'},
+ {from:9000,to:Infinity,name:'將來',span:'主再來與永世',hue:'#a8730a',desc:'國度與新耶路撒冷。'}
+];
+const LAMPS={
+ '以弗所':{y:96,mean:'可羨慕',period:'使徒之後的第一段召會（主後 96 年以後）',feat:'還接續使徒正統，但開始放鬆；離棄起初的愛心；有尼哥拉黨的「行為」（居間階級）。',judge:'稱許行為、勞碌、忍耐，恨惡尼哥拉黨的行為；責備離棄起初的愛心，不悔改就把燈臺挪去。',sp:'荒涼從失去對主起初的愛開始。得勝者要恢復起初的愛；應許是喫神樂園中生命樹的果子。'},
+ '士每拿':{y:96,mean:'沒藥（受苦）',period:'使徒時代和緊接其後羅馬帝國逼迫的時期',feat:'受苦、貧窮；有人要把猶太教（物質的聖殿、規條、居間祭司）帶進來。',judge:'沒有責備；「你卻是富足的」；務要至死忠心。',sp:'召會有復活、耐死的性質。應許是生命的冠冕，不受第二次死的害。'},
+ '別迦摩':{y:313,mean:'結婚、聯結',period:'康士坦丁接受基督教、成為國教以後（第四世紀起）',feat:'住在撒但座位之處；與世界聯婚；巴蘭的教訓；尼哥拉黨從行為變成教訓（聖品階級、組織）。',judge:'稱許堅守主的名，安提帕殉道；責備容讓巴蘭和尼哥拉黨的教訓。',sp:'召會轉了大彎，離開使徒正統。應許是隱藏的嗎哪和寫著新名的白石。'},
+ '推雅推喇':{y:590,mean:'香的祭祀',period:'羅馬天主教（約第六、七世紀成形，持續到主再來）',feat:'耶洗別把偶像和淫亂帶進來；教皇、神甫；與政權聯合，逼迫聖徒。',judge:'稱許末後的行為比起初更多，其中「其餘的人」（如蓋恩夫人、芬乃倫）要持守；責備容讓耶洗別。',sp:'其中仍有得勝者。從這封起提到主再來，後四個召會同時存在到主再來。應許是制伏列國的權柄和晨星。'},
+ '撒狄':{y:1500,mean:'餘數',period:'更正教：從路德改教起，持續到主再來',feat:'因信稱義、聖經公開；但有國立和私立教會、聖品和牧師制度；一次又一次復興，又用組織保存。',judge:'按名是活的，其實是死的；要儆醒，堅固那剩下的；有幾名沒有污穢自己的衣服。',sp:'從壞恢復到好，但沒有恢復到起初。應許是穿白衣與主同行。'},
+ '非拉鐵非':{y:1825,mean:'弟兄相愛',period:'十九世紀的弟兄們（1825 年都柏林；《見證》作 1828 年），持續到主再來',feat:'廢除居間階級，只稱弟兄；最認識神的話；不另取名，只有基督的名。',judge:'只有稱讚：略有一點力量，遵守主的道，沒有棄絕主的名；主給她敞開的門。',sp:'回到使徒正統；「恢復的轉彎始於撒狄，完成於非拉鐵非」。應許是在神殿中作柱子。'},
+ '老底嘉':{y:1845,mean:'常人的風俗／意見',period:'墮落的非拉鐵非（1840 年代起），持續到主再來',feat:'多數人的意見掌權；屬靈的驕傲；客觀的真理多，主觀的經歷少；不冷不熱。',judge:'自以為富足，其實可憐、貧窮、瞎眼、赤身；主站在門外叩門。',sp:'得勝者不以真理的亮光和工作的祝福為滿足。應許是與主同坐席、同坐寶座。'}
+};
+const SRC7='《教會的正統》第一至八章；參《召會的歷程》第4、7篇';
+const TRUTHS=[
+ [90,'七靈與金燈臺','約翰的補網職事（約主後 90 年）'],
+ [1500,'因信稱義、公開的聖經','路德馬丁（十六世紀）'],
+ [1550,'信徒受浸、弟兄平等','浸信派、門諾派等（改教後不久）'],
+ [1650,'內裏生命','蓋恩夫人、芬乃倫等奧祕派（十七世紀）'],
+ [1727,'召會生活與合一','摩爾維亞弟兄們，1727 年立約'],
+ [1740,'聖潔的生活','衛斯理兄弟、懷特腓（十八世紀）'],
+ [1828,'召會屬天的呼召與合一、解開預言預表','弟兄們（1825／1828 年起）'],
+ [1875,'奉獻成聖、內住的基督','開西大會、慕安得烈（十九世紀）'],
+ [1895,'十字架的主觀經歷、屬靈爭戰','賓路易師母（十九世紀末～二十世紀初）'],
+ [1920,'得救的證實','倪柝聲弟兄 1920 年得救'],
+ [1921,'受浸','1921 年'],[1922,'擘餅、脫離宗派','1922 年福州'],
+ [1924,'否定聖品制度、普遍的祭司職任','1924 年反對按立'],
+ [1925,'人的三部分','約 1925 年起寫《屬靈人》'],
+ [1928,'得勝者','1928 年起得勝聚會'],
+ [1934,'一地一會、基督的中心性與宇宙性','1933～34 年'],
+ [1935,'聖靈的澆灌、基督得勝的生命','1935 年煙台'],
+ [1937,'地方召會的立場（工作的再思）','1937 年'],
+ [1939,'基督的身體','1939 年 8 月特會'],
+ [1940,'召會傳福音','1940 年煙台'],
+ [1943,'移民','1943 年煙台'],
+ [1948,'外面人的破碎、工作的區域','1948 年鼓嶺訓練'],
+ [1958,'吃喝享受主、神人調和','1958 年'],
+ [1962,'包羅萬有的基督','1962 年洛杉磯特會'],
+ [1964,'神的經綸','1964 年'],
+ [1966,'禱讀','1966 年起'],
+ [1968,'呼求主名','1968 年 1 月'],
+ [1969,'七倍加強的靈','1969 年夏'],
+ [1970,'基督與宗教相對、召會是新人','1970 年'],
+ [1971,'基督是召會的人位','1971 年'],
+ [1974,'生命讀經與新約恢復本','1974 年起'],
+ [1984,'改制：神命定的路','1984 年'],
+ [1987,'家聚會、排聚會','1987 年']
+].map(([y,label,who])=>({y,label,who}));
+
+const $=s=>document.querySelector(s);
+const track=$('#track');
+let ALL=[],VIEW=[],COLS=[],truthEls=[],eraSpans=[];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const eraOf=y=>ERAS.findIndex(e=>y>=e.from&&y<e.to);
+function yLabel(k){
+  if(k<=-9000)return '<small>已過的</small>永遠';
+  if(k<=-5000&&k>-9000)return '創造';
+  if(k>=9000)return '將來';
+  if(k<0)return '<small>主前</small>'+(-k);
+  return String(k);
+}
+const normBook=b=>String(b||'').replace(/（.*）$/,'').trim()||'其他';
+
+fetch('data.json').then(r=>r.json()).then(d=>{
+  ALL=d.map((e,i)=>({...e,i,k:Math.floor(e.y),book:normBook(e.book)}));
+  const books=[...new Set(ALL.map(e=>e.book))].sort((a,b)=>ALL.filter(e=>e.book===b).length-ALL.filter(e=>e.book===a).length);
+  $('#book').insertAdjacentHTML('beforeend',books.map(b=>`<option>${esc(b)}</option>`).join(''));
+  $('#alln').textContent=TRUTHS.length;
+  $('#gems').innerHTML=TRUTHS.map((t,i)=>`<button class="gem" data-t="${i}" title="${esc(t.label)}（${esc(t.who)}）" aria-label="${esc(t.label)}"></button>`).join('');
+  render();
+}).catch(()=>{track.innerHTML='<div class="empty">資料載入失敗，請重新整理頁面。</div>'});
+
+function render(){
+  const q=$('#q').value.trim(), bk=$('#book').value;
+  VIEW=ALL.filter(e=>(!bk||e.book===bk)&&(!q||[e.ys,e.place,e.fact,e.meaning,e.truth,e.src].join(' ').includes(q)));
+  $('#count').textContent=`${VIEW.length} 則`;
+  const groups=new Map();
+  VIEW.forEach(e=>{if(!groups.has(e.k))groups.set(e.k,[]);groups.get(e.k).push(e)});
+  const keys=[...groups.keys()].sort((a,b)=>a-b);
+  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．15 本書報</div><h2>「神的恢復乃是一次比一次深，一次比一次多的。」</h2><div class="cite">——《倪柝聲弟兄恢復職事過程中信息記錄》</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>滑鼠滾輪、觸控板或方向鍵 ← → 前進</li><li>每一欄可上下捲動，看同一年的所有事件</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul><button class="go" id="go">開始 →</button></section>`;
+  if(!keys.length) html+='<div class="empty">找不到符合的資料，換個關鍵字試試。</div>';
+  let lastEra=-1, ci=0;
+  const truthAt=new Map(), lampAt=new Map();
+  TRUTHS.forEach((t,i)=>{const k=keys.find(k=>k>=t.y);if(k!==undefined){(truthAt.get(k)||truthAt.set(k,[]).get(k)).push(i)}});
+  Object.entries(LAMPS).forEach(([n,l])=>{const k=keys.find(k=>k>=l.y);if(k!==undefined){(lampAt.get(k)||lampAt.set(k,[]).get(k)).push(n)}});
+  keys.forEach(k=>{
+    const ei=eraOf(k), era=ERAS[ei];
+    if(ei!==lastEra){
+      lastEra=ei;
+      html+=`<section class="chap" data-era="${ei}" style="--era:${era.hue}"><div class="no">第 ${ei+1} 段</div><h2>${era.name}</h2><div class="span">${era.span}</div><p>${era.desc}</p>${era.lamps?`<div class="ch">預表的召會：${era.lamps.join('、')}</div>`:''}</section>`;
+    }
+    const evs=groups.get(k);
+    const lamps=(lampAt.get(k)||[]).map(n=>`<button class="lamp" data-lamp="${n}">${lampSvg()}<span>${n}<br><small>${LAMPS[n].mean}</small></span></button>`).join('');
+    const truths=(truthAt.get(k)||[]).map(i=>`<button class="truth" data-t="${i}" title="${esc(TRUTHS[i].who)}"><i>✦</i><span>${esc(TRUTHS[i].label)}</span></button>`).join('');
+    html+=`<section class="col" data-era="${ei}" data-k="${k}" style="--era:${era.hue}"><div class="lanes">${lamps}${truths}</div><div class="axis"><div class="dot"></div><div class="yr">${yLabel(k)}</div></div><div class="cards">${evs.map(cardHtml).join('')}</div></section>`;
+  });
+  track.innerHTML=html;
+  COLS=[...track.querySelectorAll('.col')];
+  truthEls=TRUTHS.map((t,i)=>track.querySelector(`.truth[data-t="${i}"]`));
+  buildMini();
+  track.scrollLeft=0;
+  onScroll();
+  const go=$('#go'); if(go) go.onclick=()=>{const c=track.querySelector('.chap');if(c)track.scrollTo({left:c.offsetLeft-16})};
+}
+function cardHtml(e){
+  const when=e.ys.replace(/^約?主後\s*/,m=>m.startsWith('約')?'約 ':'');
+  return `<button class="card" data-i="${e.i}"><div class="meta"><span class="when">${esc(e.ys)}</span>${e.place?`<span>${esc(e.place)}</span>`:''}</div><div class="fact">${esc(e.fact)}</div><div class="foot"><span class="book">《${esc(e.book)}》</span>${e.truth?'<span class="tr">✦ 真理</span>':''}</div></button>`;
+}
+function lampSvg(){return `<svg viewBox="0 0 22 34" aria-hidden="true"><path class="flame" d="M11 2c3 4 4 6 4 8a4 4 0 0 1-8 0c0-2 1-4 4-8z"/><rect x="9.5" y="14" width="3" height="12" rx="1" fill="currentColor" opacity=".7"/><path d="M4 32h14l-2-5H6z" fill="currentColor" opacity=".7"/><rect x="5" y="12" width="12" height="2.5" rx="1.2" fill="currentColor" opacity=".7"/></svg>`}
+
+function buildMini(){
+  const mini=$('#mini'), counts=new Map();
+  COLS.forEach(c=>counts.set(+c.dataset.era,(counts.get(+c.dataset.era)||0)+1));
+  const tot=COLS.length||1;
+  mini.innerHTML=[...counts].map(([ei,n])=>`<div data-era="${ei}" style="--era:${ERAS[ei].hue};flex:${n} 1 0" title="${ERAS[ei].name}">${ERAS[ei].name}</div>`).join('')+'<span class="view" id="view"></span>';
+}
+let ticking=false;
+track.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{ticking=false;onScroll()})}},{passive:true});
+function onScroll(){
+  const sl=track.scrollLeft, w=track.clientWidth, sw=track.scrollWidth;
+  const v=$('#view'); if(v){v.style.left=(sl/sw*100)+'%';v.style.width=Math.max(1.5,w/sw*100)+'%'}
+  const edge=sl+w*0.75; let lit=0;
+  truthEls.forEach((el,i)=>{const on=!!el&&el.closest('.col').offsetLeft<edge;document.querySelector(`.gem[data-t="${i}"]`).classList.toggle('on',on);if(on)lit++});
+  $('#litn').textContent=lit;
+  let cur=null;
+  for(const c of COLS){c.classList.toggle('lit',c.offsetLeft<edge);if(c.offsetLeft<=sl+w*0.4)cur=c}
+  if(cur){const e=ERAS[+cur.dataset.era];$('#now').innerHTML=`<b>${e.name}</b>　${yLabel(+cur.dataset.k).replace(/<[^>]+>/g,'')}`}
+  else $('#now').textContent='序';
+}
+$('#mini').addEventListener('click',ev=>{const r=ev.currentTarget.getBoundingClientRect();track.scrollTo({left:(ev.clientX-r.left)/r.width*track.scrollWidth-track.clientWidth/2})});
+track.addEventListener('wheel',ev=>{
+  if(ev.ctrlKey||Math.abs(ev.deltaX)>Math.abs(ev.deltaY))return;
+  const list=ev.target.closest('.cards,.chap,.start');
+  if(list&&list.scrollHeight>list.clientHeight+2){
+    const atTop=list.scrollTop<=0, atBot=list.scrollTop+list.clientHeight>=list.scrollHeight-1;
+    if(!(ev.deltaY<0&&atTop)&&!(ev.deltaY>0&&atBot)&&!ev.shiftKey)return;
+  }
+  ev.preventDefault(); track.scrollBy({left:ev.deltaY*1.4,behavior:'auto'});
+},{passive:false});
+document.addEventListener('keydown',ev=>{
+  if(!$('#drawer').hidden){if(ev.key==='Escape')closeD();if(ev.key==='ArrowLeft')step(-1);if(ev.key==='ArrowRight')step(1);return}
+  if(ev.target.matches('input,select'))return;
+  if(ev.key==='ArrowRight'||ev.key==='ArrowLeft'){ev.preventDefault();const cw=COLS[0]?COLS[0].offsetWidth:280;track.scrollBy({left:(ev.key==='ArrowRight'?1:-1)*cw})}
+});
+let qt; $('#q').addEventListener('input',()=>{clearTimeout(qt);qt=setTimeout(render,250)});
+$('#book').addEventListener('change',render);
+
+/* drawer */
+let curI=-1;
+function openD(){ $('#drawer').hidden=false; $('#scrim').hidden=false; $('#dx').focus(); }
+function closeD(){ $('#drawer').hidden=true; $('#scrim').hidden=true; }
+function showEvent(i){
+  curI=VIEW.findIndex(e=>e.i===i); const e=VIEW[curI]; if(!e)return;
+  const era=ERAS[eraOf(e.k)];
+  $('#dy').textContent=e.ys; $('#dp').textContent=[e.place,era&&era.name].filter(Boolean).join('．');
+  $('#dbody').innerHTML=`<div class="sec"><h3>史實</h3><p>${esc(e.fact)}</p></div>${e.meaning?`<div class="sec"><h3>屬靈意義</h3><p>${esc(e.meaning)}</p></div>`:''}${e.truth?`<div class="sec tru"><h3>真理進程</h3><p>${esc(e.truth)}</p></div>`:''}<div class="sec src"><h3>出處</h3><p>${esc(e.src||e.book)}</p></div>`;
+  $('#dprev').disabled=curI<=0; $('#dnext').disabled=curI>=VIEW.length-1; $('.nav').hidden=false;
+  openD();
+}
+function showLamp(n){
+  const l=LAMPS[n]; curI=-1;
+  $('#dy').textContent=n; $('#dp').textContent=`字義：${l.mean}`;
+  $('#dbody').innerHTML=`<div class="sec"><h3>預表的時期</h3><p>${l.period}</p></div><div class="sec"><h3>特徵</h3><p>${l.feat}</p></div><div class="sec"><h3>主的稱許與責備</h3><p>${l.judge}</p></div><div class="sec tru"><h3>屬靈意義與得勝者</h3><p>${l.sp}</p></div><div class="sec src"><h3>出處</h3><p>${SRC7}</p></div>`;
+  $('.nav').hidden=true; openD();
+}
+function showTruth(i){
+  const t=TRUTHS[i]; curI=-1;
+  const rel=VIEW.filter(e=>e.truth&&t.label.split(/[、與]/).some(w=>w.length>1&&e.truth.includes(w.slice(0,2)))).slice(0,6);
+  $('#dy').textContent=t.label; $('#dp').textContent=t.who;
+  $('#dbody').innerHTML=`<div class="sec tru"><h3>真理的恢復</h3><p>${esc(t.label)}：${esc(t.who)}。</p></div>${rel.length?`<div class="sec"><h3>相關記載</h3>${rel.map(e=>`<p style="margin-bottom:10px"><b>${esc(e.ys)}</b>　${esc(e.truth)}<br><span style="color:var(--muted);font-size:13px">${esc(e.src||e.book)}</span></p>`).join('')}</div>`:''}`;
+  $('.nav').hidden=true; openD();
+}
+function step(d){ if(curI<0)return; const n=VIEW[curI+d]; if(n){showEvent(n.i); const c=track.querySelector(`.card[data-i="${n.i}"]`); if(c){const col=c.closest('.col'); track.scrollTo({left:col.offsetLeft-track.clientWidth/2+col.offsetWidth/2}); c.scrollIntoView({block:'nearest'})}} }
+track.addEventListener('click',ev=>{
+  const c=ev.target.closest('.card'); if(c)return showEvent(+c.dataset.i);
+  const l=ev.target.closest('.lamp'); if(l)return showLamp(l.dataset.lamp);
+  const t=ev.target.closest('.truth'); if(t)return showTruth(+t.dataset.t);
+});
+$('#gems').addEventListener('click',ev=>{const g=ev.target.closest('.gem');if(!g)return;const el=truthEls[+g.dataset.t];if(el){const col=el.closest('.col');track.scrollTo({left:col.offsetLeft-track.clientWidth/3})}else showTruth(+g.dataset.t)});
+$('#dx').onclick=closeD; $('#scrim').onclick=closeD;
+$('#dprev').onclick=()=>step(-1); $('#dnext').onclick=()=>step(1);
+</script>
