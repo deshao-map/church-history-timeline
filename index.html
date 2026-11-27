@@ -35,6 +35,17 @@ button,select,input{font:inherit;color:inherit}
 .tools input,.tools select{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:5px 10px;min-width:0}
 .tools input{flex:1 1 140px;max-width:220px}
 .tools select{flex:0 1 200px}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface);flex:none}
+.seg button{all:unset;cursor:pointer;padding:5px 12px;font-size:13px;font-weight:500;color:var(--muted);white-space:nowrap}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.seg button[data-m="truth"][aria-pressed="true"]{background:var(--gold);color:var(--surface)}
+.seg button:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.card .lab{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin-bottom:2px}
+body[data-mode="meaning"] .card .fact{font-family:var(--font-display);font-size:14px}
+body[data-mode="truth"] .card{background:var(--gold-soft)}
+body[data-mode="truth"] .card .fact{color:var(--gold-ink);font-weight:500}
+@media (max-width:600px){.seg{order:-1;flex:1 1 100%}.seg button{flex:1;text-align:center}}
 .count{font-size:12px;color:var(--muted);align-self:center;white-space:nowrap}
 
 /* track */
@@ -128,6 +139,11 @@ button,select,input{font:inherit;color:inherit}
 <header class="top">
   <div class="brand"><h1>召會歷史長卷</h1><div class="now" id="now" aria-live="polite"></div></div>
   <div class="tools">
+    <div class="seg" id="seg" role="group" aria-label="卡片顯示內容">
+      <button data-m="fact" aria-pressed="true">史實</button>
+      <button data-m="meaning" aria-pressed="false">屬靈意義</button>
+      <button data-m="truth" aria-pressed="false">真理進程</button>
+    </div>
     <input id="q" type="search" placeholder="搜尋人物、地點、真理" aria-label="搜尋">
     <select id="book" aria-label="依書報篩選"><option value="">全部書報</option></select>
     <span class="count" id="count"></span>
@@ -208,6 +224,17 @@ const TRUTHS=[
 const $=s=>document.querySelector(s);
 const track=$('#track');
 let ALL=[],VIEW=[],COLS=[],truthEls=[],eraSpans=[];
+let MODE='fact';
+const MODE_LABEL={fact:'史實',meaning:'屬靈意義',truth:'真理進程'};
+document.body.dataset.mode=MODE;
+document.getElementById('seg').addEventListener('click',ev=>{
+  const b=ev.target.closest('button'); if(!b||b.dataset.m===MODE)return;
+  const t=document.getElementById('track'), col=COLS.find(c=>c.offsetLeft+c.offsetWidth>t.scrollLeft+t.clientWidth*0.3), keepK=col?+col.dataset.k:null;
+  MODE=b.dataset.m; document.body.dataset.mode=MODE;
+  document.querySelectorAll('#seg button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+  render();
+  if(keepK!==null){const c=COLS.find(c=>+c.dataset.k>=keepK); if(c){t.style.scrollBehavior='auto'; t.scrollLeft=c.offsetLeft-t.clientWidth*0.3; t.style.scrollBehavior=''; onScroll()}}
+});
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const eraOf=y=>ERAS.findIndex(e=>y>=e.from&&y<e.to);
 function yLabel(k){
@@ -230,8 +257,8 @@ fetch('data.json').then(r=>r.json()).then(d=>{
 
 function render(){
   const q=$('#q').value.trim(), bk=$('#book').value;
-  VIEW=ALL.filter(e=>(!bk||e.book===bk)&&(!q||[e.ys,e.place,e.fact,e.meaning,e.truth,e.src].join(' ').includes(q)));
-  $('#count').textContent=`${VIEW.length} 則`;
+  VIEW=ALL.filter(e=>e[MODE]&&(!bk||e.book===bk)&&(!q||[e.ys,e.place,e.fact,e.meaning,e.truth,e.src].join(' ').includes(q)));
+  $('#count').textContent=`${VIEW.length} 則${MODE_LABEL[MODE]}`;
   const groups=new Map();
   VIEW.forEach(e=>{if(!groups.has(e.k))groups.set(e.k,[]);groups.get(e.k).push(e)});
   const keys=[...groups.keys()].sort((a,b)=>a-b);
@@ -262,7 +289,8 @@ function render(){
 }
 function cardHtml(e){
   const when=e.ys.replace(/^約?主後\s*/,m=>m.startsWith('約')?'約 ':'');
-  return `<button class="card" data-i="${e.i}"><div class="meta"><span class="when">${esc(e.ys)}</span>${e.place?`<span>${esc(e.place)}</span>`:''}</div><div class="fact">${esc(e.fact)}</div><div class="foot"><span class="book">《${esc(e.book)}》</span>${e.truth?'<span class="tr">✦ 真理</span>':''}</div></button>`;
+  const lab=MODE==='fact'?'':`<div class="lab">${MODE_LABEL[MODE]}</div>`;
+  return `<button class="card" data-i="${e.i}"><div class="meta"><span class="when">${esc(e.ys)}</span>${e.place?`<span>${esc(e.place)}</span>`:''}</div>${lab}<div class="fact">${esc(e[MODE])}</div><div class="foot"><span class="book">《${esc(e.book)}》</span>${MODE!=='truth'&&e.truth?'<span class="tr">✦ 真理</span>':''}</div></button>`;
 }
 function lampSvg(){return `<svg viewBox="0 0 22 34" aria-hidden="true"><path class="flame" d="M11 2c3 4 4 6 4 8a4 4 0 0 1-8 0c0-2 1-4 4-8z"/><rect x="9.5" y="14" width="3" height="12" rx="1" fill="currentColor" opacity=".7"/><path d="M4 32h14l-2-5H6z" fill="currentColor" opacity=".7"/><rect x="5" y="12" width="12" height="2.5" rx="1.2" fill="currentColor" opacity=".7"/></svg>`}
 
