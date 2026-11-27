@@ -125,7 +125,7 @@ html[data-view="phone"] .mini .pin{width:4px;height:4px;margin-left:-2px}
 .chap .span{font-family:var(--font-display);font-size:16px;color:color-mix(in oklab,var(--era) 55%,var(--ink))}
 .chap p{margin:0;max-width:34em}
 .chap .ch{font-size:12.5px;color:var(--muted)}
-.start{flex:0 0 min(420px,90vw);padding:28px 24px;display:flex;flex-direction:column;justify-content:center;gap:14px;overflow-y:auto}
+.start{flex:0 0 min(420px,90vw);padding:28px 24px;display:flex;flex-direction:column;justify-content:safe center;gap:14px;overflow-y:auto}
 .start h2{font-family:var(--font-display);font-weight:900;font-size:34px;line-height:1.2;margin:0}
 .start h2{font-size:30px;line-height:1.35;text-wrap:balance}
 .start .cite{font-size:13px;color:var(--gold-ink);margin-top:-6px}
@@ -390,10 +390,33 @@ const NI=[
   '入監二十年後死在獄中；李弟兄相信是死於他帶了將近四十年的心臟病。沒有孩子，沒有遺囑，什麼都沒留下，卻留下眾召會與許多屬靈的豐富。',
   '書中稱他為真正的殉道者，為眾召會殉道，向主忠誠沒有變節。','','《歷史與啟示》第1、2篇；《正當教會生活的恢復》第十四、十五、十七、十八篇']
 ].map(([y,title,sub,ids,fact,meaning,truth,src])=>({y,title,sub,ids,fact,meaning,truth,src,note:'',who:'ni',tag:'倪弟兄'}));
-MILES.push(...NI); MILES.sort((a,b)=>a.y-b.y);
-const SHORT={1920:'得救',1922:'開始擘餅',1927:'移到上海',1935:'煙台復興',1937:'工作的再思',1939:'基督的身體',1942:'停職六年',1948:'恢復盡職',1949:'台灣開工',1952:'下監',1962:'美國開工',1972:'獄中去世'};
+const LEE=[
+ [1925,'李常受弟兄得救','1925 年 4 月．煙台',[261,272,275],
+  '李弟兄是第四代基督徒，剛在中華自立會受過滴水禮；1925 年 4 月聽汪佩真姊妹講出埃及記得救，回家路上就蒙召。',
+  '','','《歷史與啟示》第1、2篇；《正當教會生活的恢復》第十七篇；《劃時代的帶領》；《世界局勢與神的行動》第五、七章'],
+ [1932,'煙台召會在李家興起','1932 年 7 月．煙台',[323,329,330],
+  '倪弟兄訪問煙台，主恢復在中國北方的第一個召會在李弟兄家的客廳興起，頭三次擘餅都是十一位弟兄，來自六到八個公會。李弟兄從此完全進入主的恢復。',
+  '脫離宗派，恢復合一；到 1933 年下半年，北方四處正式有了地方召會。','脫離宗派，恢復合一','《歷程》第17篇；《正當教會生活的恢復》第十八篇；《時代的異象》第一篇；《世界局勢與神的行動》第三章'],
+ [1933,'放下職業全時間事奉','1933 年 8 月 21 日．煙台',[333,341,347],
+  '倪弟兄從歐洲回國的船上寫信：「常受弟兄，對於你的將來，我覺得你必須以全時間事奉主。」李弟兄掙扎三週，8 月 21 日晚接受，次日辭職，隨即往東北，再到上海受倪弟兄成全約四個月。',
+  '從此與倪弟兄並肩作工，「一同背負約櫃」。','','《歷史與啟示》第2、3、4篇；《正當教會生活的恢復》第十七、十八篇'],
+ [1943,'煙台下監與患病','1943 年．煙台',[455,458],
+  '煙台召會復興，李弟兄因此受日本人逼迫下監一個月；出監後患肺病，休養一年，因病離開煙台，後來避免落在共黨手中。',
+  '李弟兄承認那時唯一缺的是禱告不夠。','','《正當教會生活的恢復》第十八篇；《倪柝聲弟兄恢復職事過程中信息記錄》第五篇'],
+ [1958,'首次訪問歐美','1958 年．東京、美國、倫敦',[556,560,561],
+  '李弟兄首次訪問歐美：在洛杉磯首次講「神人調和」，紐約華語聖徒擘餅有新起頭；在倫敦與史百克同住四週；10 月回港、台講「神的建造」。',
+  '','神人調和；神的建造','《歷史與啟示》第9、16、19、20篇；《正當教會生活的恢復》'],
+ [1974,'安那翰生命讀經訓練','1974～1985 年．安那翰',[632,633],
+  '職事站遷到安那翰，每年冬夏兩次十天訓練，十一年二十二次，完成新約生命讀經，並寫恢復本註解。',
+  '','新約完全解開','《歷史與啟示》第13、24篇；《世界局勢與主行動的方向》；《劃時代的帶領》'],
+ [1984,'回台改制，走新路','1984 年 10 月．台北',[648,649],
+  '新約生命讀經和恢復本註解完成，李弟兄停下美國的工作回台北，提出改制、走新路，把重點從大聚會轉到小排；一個晚上設立五十二位長老。',
+  '改制的起點，目標是福音化台灣。','叩門傳福音、家聚會、排聚會、申言','《重建》第2、6、10、12篇；《主恢復當前的進展》'],
+].map(([y,title,sub,ids,fact,meaning,truth,src])=>({y,title,sub,ids,fact,meaning,truth,src,note:'',who:'lee',tag:'李常受弟兄'}));
+MILES.push(...NI,...LEE); MILES.sort((a,b)=>a.y-b.y);
+const SHORT={1920:'得救',1922:'開始擘餅',1927:'移到上海',1935:'煙台復興',1937:'工作的再思',1939:'基督的身體',1942:'停職六年',1948:'恢復盡職',1949:'台灣開工',1952:'下監',1962:'美國開工',1972:'獄中去世',1925:'得救',1932:'煙台召會',1933:'全時間',1943:'下監患病',1958:'首訪歐美',1974:'生命讀經',1984:'改制新路'};
 MILES.forEach(m=>m.short=SHORT[m.y]||'');
-const BRIEF={1920:'十七歲在福州聽福音得救，同時蒙召',1922:'與王載夫婦擘餅，中國第一個召會',1927:'在上海開始擘餅，工作中心北移',1935:'講基督得勝的生命，帶進復興',1937:'釋放地方召會立場：一城一會',1939:'看見召會是基督的身體',1942:'上海召會反對，職事停止六年',1948:'反對者悔改，鼓嶺訓練同工',1949:'8 月 1 日台北一會所開工，年底九百人',1952:'被捕入監，一千多位負責弟兄被捕',1962:'洛杉磯特會「包羅萬有的基督」',1972:'入監二十年，為眾召會殉道'};
+const BRIEF={1920:'十七歲在福州聽福音得救，同時蒙召',1922:'與王載夫婦擘餅，中國第一個召會',1927:'在上海開始擘餅，工作中心北移',1935:'講基督得勝的生命，帶進復興',1937:'釋放地方召會立場：一城一會',1939:'看見召會是基督的身體',1942:'上海召會反對，職事停止六年',1948:'反對者悔改，鼓嶺訓練同工',1949:'8 月 1 日台北一會所開工，年底九百人',1952:'被捕入監，一千多位負責弟兄被捕',1962:'洛杉磯特會「包羅萬有的基督」',1972:'入監二十年，為眾召會殉道',1925:'聽汪佩真姊妹講道得救，當天蒙召',1932:'北方第一個召會在李家客廳興起',1933:'接倪弟兄的信，辭職全時間事奉',1943:'受日本人逼迫下監，出監患肺病',1958:'在洛杉磯首次講「神人調和」',1974:'十一年完成新約生命讀經',1984:'回台北改制，從大聚會轉到小排'};
 MILES.forEach(m=>m.brief=BRIEF[m.y]||'');
 const KEYOF=new Map(); MILES.forEach((m,mi)=>m.ids.forEach(id=>KEYOF.set(id,mi)));
 
@@ -448,7 +471,7 @@ function render(){
   const groups=new Map();
   VIEW.forEach(e=>{if(!groups.has(e.k))groups.set(e.k,[]);groups.get(e.k).push(e)});
   const keys=[...groups.keys()].sort((a,b)=>a-b);
-  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．15 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>滑鼠滾輪、觸控板或方向鍵 ← → 前進</li><li>每一欄可上下捲動，看同一年的所有事件</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul>${[['lee','李常受弟兄開工'],['ni','倪柝聲弟兄的重要事件']].map(([w,lab])=>`<div class="jumps ${w}"><span class="jl">⚑ ${lab}</span>${MILES.map((m,i)=>m.who===w?`<button data-jump="${i}" title="${m.title}">${m.y}<span class="js">${m.short}</span></button>`:'').join('')}</div>`).join('')}<button class="go" id="go">開始 →</button></section>`;
+  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．15 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>滑鼠滾輪、觸控板或方向鍵 ← → 前進</li><li>每一欄可上下捲動，看同一年的所有事件</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul>${[['lee','李常受弟兄的重要事件'],['ni','倪柝聲弟兄的重要事件']].map(([w,lab])=>`<div class="jumps ${w}"><span class="jl">⚑ ${lab}</span>${MILES.map((m,i)=>m.who===w?`<button data-jump="${i}" title="${m.title}">${m.y}<span class="js">${m.short}</span></button>`:'').join('')}</div>`).join('')}<button class="go" id="go">開始 →</button></section>`;
   if(!keys.length) html+='<div class="empty">找不到符合的資料，換個關鍵字試試。</div>';
   let lastEra=-1, ci=0;
   const truthAt=new Map(), lampAt=new Map();
@@ -465,7 +488,7 @@ function render(){
     const evs=groups.get(k);
     const lamps=(lampAt.get(k)||[]).map(n=>`<button class="lamp" data-lamp="${n}">${lampSvg()}<span>${n}<br><small>${LAMPS[n].mean}</small></span></button>`).join('');
     const truths=(truthAt.get(k)||[]).map(i=>`<button class="truth" data-t="${i}" title="${esc(TRUTHS[i].who)}"><i>✦</i><span>${esc(TRUTHS[i].label)}</span></button>`).join('');
-    const mi=mileAt.get(k), mile=mi===undefined?'':`<button class="mile" data-mile="${mi}" title="${MILES[mi].sub}"><i></i><span>${MILES[mi].who==='ni'&&!MILES[mi].title.includes('倪柝聲')?'倪柝聲弟兄．':''}${MILES[mi].title}</span></button><div class="mbrief">${MILES[mi].brief}</div>`;
+    const mi=mileAt.get(k), mile=mi===undefined?'':`<button class="mile" data-mile="${mi}" title="${MILES[mi].sub}"><i></i><span>${(n=>MILES[mi].title.includes(n)?'':n+'．')(MILES[mi].who==='ni'?'倪柝聲弟兄':'李常受弟兄')}${MILES[mi].title}</span></button><div class="mbrief">${MILES[mi].brief}</div>`;
     html+=`<section class="col${mile?' milecol '+MILES[mi].who:''}" data-era="${ei}" data-k="${k}"${mile?` data-mile="${mi}"`:''} style="--era:${era.hue}"><div class="lanes">${lamps}${truths}</div><div class="axis"><div class="dot"></div><div class="yr">${yLabel(k)}</div>${mile}</div><div class="cards">${evs.map(cardHtml).join('')}</div></section>`;
   });
   track.innerHTML=html;
@@ -558,7 +581,7 @@ function showTruth(i){
 function showMile(i){
   const m=MILES[i]; curI=-1;
   $('#dy').textContent='⚑ '+m.title; $('#dp').textContent=m.sub;
-  $('#dbody').innerHTML=`<div class="sec"><h3>史實</h3><p>${esc(m.fact)}</p></div><div class="sec"><h3>屬靈意義</h3><p>${esc(m.meaning)}</p></div>${m.truth?`<div class="sec tru"><h3>真理進程</h3><p>${esc(m.truth)}</p></div>`:''}<div class="sec src"><h3>出處</h3><p>${esc(m.src)}${m.note?'<br>'+esc(m.note):''}</p></div>`;
+  $('#dbody').innerHTML=`<div class="sec"><h3>史實</h3><p>${esc(m.fact)}</p></div>${m.meaning?`<div class="sec"><h3>屬靈意義</h3><p>${esc(m.meaning)}</p></div>`:''}${m.truth?`<div class="sec tru"><h3>真理進程</h3><p>${esc(m.truth)}</p></div>`:''}<div class="sec src"><h3>出處</h3><p>${esc(m.src)}${m.note?'<br>'+esc(m.note):''}</p></div>`;
   $('.nav').hidden=true; openD();
 }
 function step(d){ if(curI<0)return; const n=VIEW[curI+d]; if(n){showEvent(n.i); const c=track.querySelector(`.card[data-i="${n.i}"]`); if(c){const col=c.closest('.col'); track.scrollTo({left:col.offsetLeft-track.clientWidth/2+col.offsetWidth/2}); c.scrollIntoView({block:'nearest'})}} }
