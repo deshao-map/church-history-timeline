@@ -250,6 +250,13 @@ html[data-view="pc"] .drawer{width:min(560px,100%)}
 html[data-view="pc"] .drawer .dy{font-size:28px}
 html[data-view="pc"] .sec h3{font-size:13px}
 html[data-view="pc"] .sec p{font-size:17px}
+.homebtn{all:unset;cursor:pointer;position:fixed;z-index:10;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(var(--bottomh,70px) + 14px);display:flex;align-items:center;gap:6px;background:var(--ink);color:var(--bg);border-radius:999px;padding:8px 14px 8px 11px;font-size:13.5px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.22);transition:opacity .25s,transform .25s}
+.homebtn[aria-hidden="true"]{opacity:0;transform:translateY(8px);pointer-events:none}
+.homebtn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.homebtn svg{width:16px;height:16px}
+.brand h1{cursor:pointer}
+html[data-view="phone"] .homebtn{font-size:12.5px;padding:7px 12px 7px 9px}
+html[data-view="pc"] .homebtn{font-size:15px}
 .viewbtn{all:unset;cursor:pointer;flex:none;margin-left:auto;font-size:12.5px;font-weight:500;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 11px;background:var(--surface);white-space:nowrap}
 .viewbtn:hover{color:var(--ink);border-color:var(--ink)}
 .viewbtn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
@@ -280,6 +287,7 @@ document.documentElement.dataset.view=(v==='phone'||v==='pc')?v:(matchMedia('(ma
   <div class="mini" id="mini" aria-label="時代縮圖，點擊可跳轉"></div>
   <div class="tip" id="tip">往右捲動，沿著年代前進；點卡片看屬靈意義與出處，點燈臺看七個召會。</div>
 </footer>
+<button class="homebtn" id="homebtn" type="button" aria-hidden="true" tabindex="-1"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7 3 2 8l5 5M2.5 8H14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>回到首頁</button>
 <div class="scrim" id="scrim" hidden></div>
 <aside class="drawer" id="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="dy">
   <header><div class="h"><div class="dy" id="dy"></div><div class="dp" id="dp"></div></div><button class="x" id="dx" aria-label="關閉">×</button></header>
@@ -524,8 +532,13 @@ function buildMini(){
 }
 let ticking=false;
 track.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{ticking=false;onScroll()})}},{passive:true});
+const homeBtn=document.getElementById('homebtn');
+function goHome(){track.style.scrollBehavior='auto';track.scrollLeft=0;track.style.scrollBehavior='';onScroll()}
+homeBtn.onclick=goHome; document.querySelector('.brand h1').onclick=goHome;
 function onScroll(){
   const sl=track.scrollLeft, w=track.clientWidth, sw=track.scrollWidth;
+  const far=sl>w*0.6; homeBtn.setAttribute('aria-hidden',String(!far)); homeBtn.tabIndex=far?0:-1;
+  document.documentElement.style.setProperty('--bottomh',document.querySelector('.bottom').offsetHeight+'px');
   const v=$('#view'); if(v){v.style.left=(sl/sw*100)+'%';v.style.width=Math.max(1.5,w/sw*100)+'%'}
   const edge=sl+w*0.75; let lit=0;
   truthEls.forEach((el,i)=>{const on=!!el&&el.closest('.col').offsetLeft<edge;document.querySelector(`.gem[data-t="${i}"]`).classList.toggle('on',on);if(on)lit++});
