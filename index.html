@@ -436,9 +436,9 @@ const LEE=[
  [1984,'回台改制，走新路','1984 年 10 月．台北',[648,649],
   '新約生命讀經和恢復本註解完成，李弟兄停下美國的工作回台北，提出改制、走新路，把重點從大聚會轉到小排；一個晚上設立五十二位長老。',
   '改制的起點，目標是福音化台灣。','叩門傳福音、家聚會、排聚會、申言','《重建》第2、6、10、12篇；《主恢復當前的進展》'],
- [1994,'看見神聖啟示的高峯','1994 年 2 月．華語新春特會',[669,670,672,673],
-  '華語特會前幾天，二十七年沒寫新詩歌的李弟兄寫了一首四節的詩歌，首句是「何大神蹟！何深奧秘！神竟與人聯調為一！」。李弟兄回顧，他從基督與召會開始，約 1980 年起講基督的分賜，1984 年起講神的經綸，到這時看見神成為人、人成為神。之後釋放「神經綸的總綱」與「過神人生活的新復興」。',
-  '神成為人，叫人在生命和性情上成為神（但無分於祂的神位），才能產生基督的身體；這是神給我們的異象的高峯。','神聖啟示的高峯：神成為人，使人成為神；神人的生活','《異象的高峯與基督身體的實際》第一、二篇；《神經綸的總綱與神人該有的生活》第一、四篇；《過照著神啟示之高峯的生活》第五篇'],
+ [1994,'看見神聖啟示的高峯','1994 年 2 月．華語新春特會',[675,669,670,672,673],
+  '從 1991 年冬季耶利米書生命讀經訓練起，李弟兄的職事即專注於「神成為人，為要使人在生命和性情上成為神，但無分於神格」，一直到 1997 年春。1994 年 2 月華語特會前幾天，二十七年沒寫新詩歌的李弟兄寫了一首四節的詩歌，首句是「何大神蹟！何深奧秘！神竟與人聯調為一！」。李弟兄回顧，他從基督與召會開始，約 1980 年起講基督的分賜，1984 年起講神的經綸，到這時看見神成為人、人成為神。同年 7 月講「過神人生活的新復興」，並釋放「神經綸的總綱」。',
+  '神成為人，叫人在生命和性情上成為神（但無分於祂的神位），才能產生基督的身體；這是神給我們的異象的高峯。','神聖啟示的高峯：神成為人，使人成為神；神人的生活','《異象的高峯與基督身體的實際》第一、二篇；《神經綸的總綱與神人該有的生活》第一、四篇；《過照著神啟示之高峯的生活》第五篇；《神聖啟示的高峯》說明'],
 ].map(([y,title,sub,ids,fact,meaning,truth,src])=>({y,title,sub,ids,fact,meaning,truth,src,note:'',who:'lee',tag:'李常受弟兄'}));
 MILES.push(...NI,...LEE); MILES.sort((a,b)=>a.y-b.y);
 const SHORT={1920:'得救',1922:'開始擘餅',1927:'移到上海',1935:'煙台復興',1937:'工作的再思',1939:'基督的身體',1942:'停職六年',1948:'恢復盡職',1949:'台灣開工',1952:'下監',1962:'美國開工',1972:'獄中去世',1925:'得救',1932:'煙台召會',1933:'全時間',1943:'下監患病',1958:'首訪歐美',1974:'生命讀經',1984:'改制新路',1994:'啟示高峯'};
@@ -527,7 +527,7 @@ function render(){
   const groups=new Map();
   VIEW.forEach(e=>{if(!groups.has(e.k))groups.set(e.k,[]);groups.get(e.k).push(e)});
   const keys=[...groups.keys()].sort((a,b)=>a-b);
-  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．19 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>滑鼠滾輪、觸控板或方向鍵 ← → 前進</li><li>每一欄可上下捲動，看同一年的所有事件</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul>${[['lee','李常受弟兄的重要事件'],['ni','倪柝聲弟兄的重要事件']].map(([w,lab])=>`<div class="jumps ${w}"><span class="jl">⚑ ${lab}</span>${MILES.map((m,i)=>m.who===w?`<button data-jump="${i}" title="${m.title}">${m.y}<span class="js">${m.short}</span></button>`:'').join('')}</div>`).join('')}<div class="tags"><div class="tl">✦ 真理重點　<small>點一下，只看相關的記載</small></div>${[['ni','倪柝聲弟兄'],['lee','李常受弟兄']].map(([w,n])=>`<div class="tg"><span class="tn">${n}</span>${TAGS.map((t,i)=>t.who===w?`<button data-tag="${i}"${TAG===t?' aria-pressed="true"':''}>${t.label}<b>${ALL.filter(e=>t.re.test(e.fact+' '+e.meaning+' '+e.truth)).length}</b></button>`:'').join('')}</div>`).join('')}</div><button class="go" id="go">開始 →</button></section>`;
+  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．20 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>滑鼠滾輪、觸控板或方向鍵 ← → 前進</li><li>每一欄可上下捲動，看同一年的所有事件</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul>${[['lee','李常受弟兄的重要事件'],['ni','倪柝聲弟兄的重要事件']].map(([w,lab])=>`<div class="jumps ${w}"><span class="jl">⚑ ${lab}</span>${MILES.map((m,i)=>m.who===w?`<button data-jump="${i}" title="${m.title}">${m.y}<span class="js">${m.short}</span></button>`:'').join('')}</div>`).join('')}<div class="tags"><div class="tl">✦ 真理重點　<small>點一下，只看相關的記載</small></div>${[['ni','倪柝聲弟兄'],['lee','李常受弟兄']].map(([w,n])=>`<div class="tg"><span class="tn">${n}</span>${TAGS.map((t,i)=>t.who===w?`<button data-tag="${i}"${TAG===t?' aria-pressed="true"':''}>${t.label}<b>${ALL.filter(e=>t.re.test(e.fact+' '+e.meaning+' '+e.truth)).length}</b></button>`:'').join('')}</div>`).join('')}</div><button class="go" id="go">開始 →</button></section>`;
   if(!keys.length) html+='<div class="empty">找不到符合的資料，換個關鍵字試試。</div>';
   let lastEra=-1, ci=0;
   const truthAt=new Map(), lampAt=new Map();
