@@ -53,7 +53,8 @@ body[data-mode="all"] .card .fact{-webkit-line-clamp:4}
 body[data-mode="meaning"] .card .fact{font-family:var(--font-display);font-size:14px}
 body[data-mode="truth"] .card{background:var(--gold-soft)}
 body[data-mode="truth"] .card .fact{color:var(--gold-ink);font-weight:500}
-@media (max-width:600px){.seg{order:-1;flex:1 1 100%}.seg button{flex:1;text-align:center}}
+html[data-view="phone"] .seg{order:-1;flex:1 1 100%}
+html[data-view="phone"] .seg button{flex:1;text-align:center}
 .count{font-size:12px;color:var(--muted);align-self:center;white-space:nowrap}
 
 /* track */
@@ -105,7 +106,8 @@ body[data-mode="truth"] .card .fact{color:var(--gold-ink);font-weight:500}
 .card.key .when{color:var(--mile)}
 .mini .pin{position:absolute;bottom:1px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--mile);box-shadow:0 0 0 1px var(--bg);padding:0;border:0;pointer-events:none}
 .mini div{line-height:18px!important}
-@media (max-width:600px){.mini div{line-height:14px!important}.mini .pin{width:4px;height:4px;margin-left:-2px}}
+html[data-view="phone"] .mini div{line-height:14px!important}
+html[data-view="phone"] .mini .pin{width:4px;height:4px;margin-left:-2px}
 :root{--ni:#2c5aa0;--ni-ink:#fff}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ni:#7ea2e6;--ni-ink:#0c1424}}
 :root[data-theme="dark"]{--ni:#7ea2e6;--ni-ink:#0c1424}
@@ -164,52 +166,102 @@ body[data-mode="truth"] .card .fact{color:var(--gold-ink);font-weight:500}
 .nav button{all:unset;cursor:pointer;flex:1;text-align:center;padding:8px;border:1px solid var(--line);border-radius:6px;font-size:13px}
 .nav button:disabled{opacity:.4;cursor:default}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-@media (max-width:600px){
-  :root{--colw:min(74vw,250px)}
-  body{font-size:13px}
-  .top{padding-block:6px;gap:6px}
-  .brand{flex:1 1 100%;gap:8px}
-  .brand h1{font-size:17px;letter-spacing:.03em}
-  .now{font-size:12px}
-  .tools{flex:1 1 100%;gap:6px;flex-wrap:wrap}
-  .seg button{padding:4px 4px;font-size:12.5px}
-  .card .part .txt{font-size:12px;-webkit-line-clamp:3}
-  .tools input{flex:1 1 0;max-width:none;padding:4px 8px;font-size:13px}
-  .tools select{flex:1 1 0;padding:4px 6px;font-size:13px}
-  .count{display:none}
-  .lanes{min-height:0;padding:8px 10px 0;gap:4px}
-  .lamp{font-size:13px}.lamp svg{width:24px;height:28px}
-  .truth{font-size:11px}
-  .mile{font-size:11.5px;margin-top:1px}.mbrief{font-size:11px}
-  .axis{padding:2px 10px 6px}
-  .axis::before{top:16px}
-  .axis .dot{width:11px;height:11px;margin:8px 0 4px}
-  .yr{font-size:19px}
-  .cards{padding:2px 10px 12px;gap:8px}
-  .card{padding:8px 10px}
-  .card .meta{font-size:11px;margin-bottom:2px}
-  .card .fact{font-size:12.5px;-webkit-line-clamp:4}
-  .card .foot{font-size:10.5px;margin-top:4px}
-  .chap{flex-basis:78vw;padding:18px 16px;gap:8px}
-  .chap h2{font-size:22px}
-  .chap .span{font-size:14px}
-  .chap p{font-size:13px}
-  .start{flex-basis:84vw;padding:18px 16px;gap:10px}
-  .start h2{font-size:21px}
-  .start p,.start ul{font-size:13px}
-  .bottom{gap:4px;padding-block:4px calc(6px + env(safe-area-inset-bottom,0px))}
-  .collect .lbl{font-size:11px}.collect .lbl b{font-size:13px}
-  .gem{width:11px;height:11px}
-  .mini{height:18px}.mini div{font-size:9.5px;line-height:18px}
-  .tip{display:none}
-  .drawer .dy{font-size:20px}
-  .sec p{font-size:14px}
-  .drawer{top:auto;height:82%;width:100%;border-radius:14px 14px 0 0;padding-right:0}
-}
+html[data-view="phone"]{--colw:min(74vw,250px)}
+html[data-view="phone"] body{font-size:13px}
+html[data-view="phone"] .top{padding-block:6px;gap:6px}
+html[data-view="phone"] .brand{flex:1 1 100%;gap:8px}
+html[data-view="phone"] .brand h1{font-size:17px;letter-spacing:.03em}
+html[data-view="phone"] .now{font-size:12px}
+html[data-view="phone"] .tools{flex:1 1 100%;gap:6px;flex-wrap:wrap}
+html[data-view="phone"] .seg button{padding:4px 4px;font-size:12.5px}
+html[data-view="phone"] .card .part .txt{font-size:12px;-webkit-line-clamp:3}
+html[data-view="phone"] .tools input{flex:1 1 0;max-width:none;padding:4px 8px;font-size:13px}
+html[data-view="phone"] .tools select{flex:1 1 0;padding:4px 6px;font-size:13px}
+html[data-view="phone"] .count{display:none}
+html[data-view="phone"] .lanes{min-height:0;padding:8px 10px 0;gap:4px}
+html[data-view="phone"] .lamp{font-size:13px}
+html[data-view="phone"] .lamp svg{width:24px;height:28px}
+html[data-view="phone"] .truth{font-size:11px}
+html[data-view="phone"] .mile{font-size:11.5px;margin-top:1px}
+html[data-view="phone"] .mbrief{font-size:11px}
+html[data-view="phone"] .axis{padding:2px 10px 6px}
+html[data-view="phone"] .axis::before{top:16px}
+html[data-view="phone"] .axis .dot{width:11px;height:11px;margin:8px 0 4px}
+html[data-view="phone"] .yr{font-size:19px}
+html[data-view="phone"] .cards{padding:2px 10px 12px;gap:8px}
+html[data-view="phone"] .card{padding:8px 10px}
+html[data-view="phone"] .card .meta{font-size:11px;margin-bottom:2px}
+html[data-view="phone"] .card .fact{font-size:12.5px;-webkit-line-clamp:4}
+html[data-view="phone"] .card .foot{font-size:10.5px;margin-top:4px}
+html[data-view="phone"] .chap{flex-basis:78vw;padding:18px 16px;gap:8px}
+html[data-view="phone"] .chap h2{font-size:22px}
+html[data-view="phone"] .chap .span{font-size:14px}
+html[data-view="phone"] .chap p{font-size:13px}
+html[data-view="phone"] .start{flex-basis:84vw;padding:18px 16px;gap:10px}
+html[data-view="phone"] .start h2{font-size:21px}
+html[data-view="phone"] .start p,html[data-view="phone"] .start ul{font-size:13px}
+html[data-view="phone"] .bottom{gap:4px;padding-block:4px calc(6px + env(safe-area-inset-bottom,0px))}
+html[data-view="phone"] .collect .lbl{font-size:11px}
+html[data-view="phone"] .collect .lbl b{font-size:13px}
+html[data-view="phone"] .gem{width:11px;height:11px}
+html[data-view="phone"] .mini{height:18px}
+html[data-view="phone"] .mini div{font-size:9.5px;line-height:18px}
+html[data-view="phone"] .tip{display:none}
+html[data-view="phone"] .drawer .dy{font-size:20px}
+html[data-view="phone"] .sec p{font-size:14px}
+html[data-view="phone"] .drawer{top:auto;height:82%;width:100%;border-radius:14px 14px 0 0;padding-right:0}
+/* 電腦版：字和欄位放大 */
+html[data-view="pc"]{--colw:350px}
+html[data-view="pc"] body{font-size:15.5px}
+html[data-view="pc"] .brand h1{font-size:26px}
+html[data-view="pc"] .now{font-size:14.5px}
+html[data-view="pc"] .seg button{font-size:14.5px;padding:6px 14px}
+html[data-view="pc"] .tools input,html[data-view="pc"] .tools select{font-size:14.5px;padding:6px 10px}
+html[data-view="pc"] .count{font-size:13px}
+html[data-view="pc"] .yr{font-size:32px}
+html[data-view="pc"] .yr small{font-size:15px}
+html[data-view="pc"] .card{padding:12px 14px}
+html[data-view="pc"] .card .meta{font-size:13px}
+html[data-view="pc"] .card .fact{font-size:15.5px}
+html[data-view="pc"] .card .part .txt{font-size:14.5px}
+html[data-view="pc"] .card .lab{font-size:12.5px}
+html[data-view="pc"] .card .foot{font-size:12.5px}
+html[data-view="pc"] body[data-mode="meaning"] .card .fact{font-size:16px}
+html[data-view="pc"] .lamp{font-size:17px}
+html[data-view="pc"] .lamp small{font-size:13px}
+html[data-view="pc"] .lamp svg{width:34px;height:38px}
+html[data-view="pc"] .truth{font-size:13.5px}
+html[data-view="pc"] .mile{font-size:14px}
+html[data-view="pc"] .mbrief{font-size:13px}
+html[data-view="pc"] .chap{flex-basis:420px}
+html[data-view="pc"] .chap h2{font-size:36px}
+html[data-view="pc"] .chap .span{font-size:18px}
+html[data-view="pc"] .chap p{font-size:16.5px}
+html[data-view="pc"] .chap .ch{font-size:14px}
+html[data-view="pc"] .start{flex-basis:500px}
+html[data-view="pc"] .start h2{font-size:36px}
+html[data-view="pc"] .start p,html[data-view="pc"] .start ul{font-size:16px}
+html[data-view="pc"] .start .jumps .jl,html[data-view="pc"] .start .jumps button{font-size:14.5px}
+html[data-view="pc"] .collect .lbl{font-size:13.5px}
+html[data-view="pc"] .mini{height:24px}
+html[data-view="pc"] .mini div{font-size:12px;line-height:20px!important}
+html[data-view="pc"] .tip{font-size:13px}
+html[data-view="pc"] .drawer{width:min(560px,100%)}
+html[data-view="pc"] .drawer .dy{font-size:28px}
+html[data-view="pc"] .sec h3{font-size:13px}
+html[data-view="pc"] .sec p{font-size:17px}
+.viewbtn{all:unset;cursor:pointer;flex:none;margin-left:auto;font-size:12.5px;font-weight:500;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 11px;background:var(--surface);white-space:nowrap}
+.viewbtn:hover{color:var(--ink);border-color:var(--ink)}
+.viewbtn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+html[data-view="pc"] .viewbtn{font-size:13.5px}
 </style>
+<script>
+(function(){var v=null;try{v=localStorage.getItem('view')}catch(e){}
+document.documentElement.dataset.view=(v==='phone'||v==='pc')?v:(matchMedia('(max-width:600px)').matches?'phone':'pc')})();
+</script>
 
 <header class="top">
-  <div class="brand"><h1>召會歷史長卷</h1><div class="now" id="now" aria-live="polite"></div></div>
+  <div class="brand"><h1>召會歷史長卷</h1><div class="now" id="now" aria-live="polite"></div><button class="viewbtn" id="viewbtn" type="button"></button></div>
   <div class="tools">
     <div class="seg" id="seg" role="group" aria-label="卡片顯示內容">
       <button data-m="all" aria-pressed="true">全部</button>
@@ -357,6 +409,16 @@ document.getElementById('seg').addEventListener('click',ev=>{
   MODE=b.dataset.m; document.body.dataset.mode=MODE;
   document.querySelectorAll('#seg button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
   render();
+  if(keepK!==null){const c=COLS.find(c=>+c.dataset.k>=keepK); if(c){t.style.scrollBehavior='auto'; t.scrollLeft=c.offsetLeft-t.clientWidth*0.3; t.style.scrollBehavior=''; onScroll()}}
+});
+const viewBtn=document.getElementById('viewbtn');
+function setViewLabel(){const pc=document.documentElement.dataset.view==='pc';viewBtn.textContent=pc?'切換手機版':'切換電腦版';viewBtn.setAttribute('aria-label',pc?'目前是電腦版，切換成手機版':'目前是手機版，切換成電腦版')}
+setViewLabel();
+viewBtn.addEventListener('click',()=>{
+  const t=document.getElementById('track'), col=COLS.find(c=>c.offsetLeft+c.offsetWidth>t.scrollLeft+t.clientWidth*0.3), keepK=col&&t.scrollLeft>0?+col.dataset.k:null;
+  const v=document.documentElement.dataset.view==='pc'?'phone':'pc';
+  document.documentElement.dataset.view=v; try{localStorage.setItem('view',v)}catch(e){}
+  setViewLabel(); render();
   if(keepK!==null){const c=COLS.find(c=>+c.dataset.k>=keepK); if(c){t.style.scrollBehavior='auto'; t.scrollLeft=c.offsetLeft-t.clientWidth*0.3; t.style.scrollBehavior=''; onScroll()}}
 });
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
