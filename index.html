@@ -321,7 +321,7 @@ const ERAS=[
  {from:1920,to:1949,name:'主在中國的恢復',span:'1920～1948 年',hue:'#a23e48',desc:'倪柝聲弟兄得救，主的恢復在中國開始：受浸、擘餅、脫離宗派、一地一會、身體、配搭、移民。煙台復興與鼓嶺訓練。'},
  {from:1949,to:1962,name:'台灣與東南亞',span:'1949～1961 年',hue:'#2e8a8a',desc:'主的恢復轉到台灣、香港與南洋，福音大開，召會快速繁增；也經歷試煉，從中學到功課。'},
  {from:1962,to:1984,name:'美國與全地',span:'1962～1983 年',hue:'#5a6fb8',desc:'主的恢復到美國，再到全地。包羅萬有的基督、神的經綸、禱讀、呼求主名、七倍加強的靈、召會是新人。生命讀經與恢復本開始。'},
- {from:1984,to:9000,name:'新路與風波',span:'1984 年以後',hue:'#8a5a9e',desc:'改制、走神命定的路：叩門傳福音、家聚會、排聚會。主恢復中也經歷風波，再往前。'},
+ {from:1984,to:9000,name:'新路與風波',span:'1984 年以後',hue:'#8a5a9e',desc:'改制、走神命定的路：叩門傳福音、家聚會、排聚會。主恢復中也經歷風波，再往前；1994 年看見神聖啟示的高峯：神成為人，使人成為神。'},
  {from:9000,to:Infinity,name:'將來',span:'主再來與永世',hue:'#a8730a',desc:'國度與新耶路撒冷。'}
 ];
 const LAMPS={
@@ -366,7 +366,8 @@ const TRUTHS=[
  [1971,'基督是召會的人位','1971 年'],
  [1974,'生命讀經與新約恢復本','1974 年起'],
  [1984,'改制：神命定的路','1984 年'],
- [1987,'家聚會、排聚會','1987 年']
+ [1987,'家聚會、排聚會','1987 年'],
+ [1994,'神聖啟示的高峯：神成為人，使人成為神','1994 年 2 月華語特會']
 ].map(([y,label,who])=>({y,label,who}));
 const MILES=[
  {y:1949,title:'李常受弟兄在台灣開工',sub:'1949 年 8 月 1 日．台北一會所',
@@ -435,11 +436,14 @@ const LEE=[
  [1984,'回台改制，走新路','1984 年 10 月．台北',[648,649],
   '新約生命讀經和恢復本註解完成，李弟兄停下美國的工作回台北，提出改制、走新路，把重點從大聚會轉到小排；一個晚上設立五十二位長老。',
   '改制的起點，目標是福音化台灣。','叩門傳福音、家聚會、排聚會、申言','《重建》第2、6、10、12篇；《主恢復當前的進展》'],
+ [1994,'看見神聖啟示的高峯','1994 年 2 月．華語新春特會',[669,670,672,673],
+  '華語特會前幾天，二十七年沒寫新詩歌的李弟兄寫了一首四節的詩歌，首句是「何大神蹟！何深奧秘！神竟與人聯調為一！」。李弟兄回顧，他從基督與召會開始，約 1980 年起講基督的分賜，1984 年起講神的經綸，到這時看見神成為人、人成為神。之後釋放「神經綸的總綱」與「過神人生活的新復興」。',
+  '神成為人，叫人在生命和性情上成為神（但無分於祂的神位），才能產生基督的身體；這是神給我們的異象的高峯。','神聖啟示的高峯：神成為人，使人成為神；神人的生活','《異象的高峯與基督身體的實際》第一、二篇；《神經綸的總綱與神人該有的生活》第一、四篇；《過照著神啟示之高峯的生活》第五篇'],
 ].map(([y,title,sub,ids,fact,meaning,truth,src])=>({y,title,sub,ids,fact,meaning,truth,src,note:'',who:'lee',tag:'李常受弟兄'}));
 MILES.push(...NI,...LEE); MILES.sort((a,b)=>a.y-b.y);
-const SHORT={1920:'得救',1922:'開始擘餅',1927:'移到上海',1935:'煙台復興',1937:'工作的再思',1939:'基督的身體',1942:'停職六年',1948:'恢復盡職',1949:'台灣開工',1952:'下監',1962:'美國開工',1972:'獄中去世',1925:'得救',1932:'煙台召會',1933:'全時間',1943:'下監患病',1958:'首訪歐美',1974:'生命讀經',1984:'改制新路'};
+const SHORT={1920:'得救',1922:'開始擘餅',1927:'移到上海',1935:'煙台復興',1937:'工作的再思',1939:'基督的身體',1942:'停職六年',1948:'恢復盡職',1949:'台灣開工',1952:'下監',1962:'美國開工',1972:'獄中去世',1925:'得救',1932:'煙台召會',1933:'全時間',1943:'下監患病',1958:'首訪歐美',1974:'生命讀經',1984:'改制新路',1994:'啟示高峯'};
 MILES.forEach(m=>m.short=SHORT[m.y]||'');
-const BRIEF={1920:'十七歲在福州聽福音得救，同時蒙召',1922:'與王載夫婦擘餅，中國第一個召會',1927:'在上海開始擘餅，工作中心北移',1935:'講基督得勝的生命，帶進復興',1937:'釋放地方召會立場：一城一會',1939:'看見召會是基督的身體',1942:'上海召會反對，職事停止六年',1948:'反對者悔改，鼓嶺訓練同工',1949:'8 月 1 日台北一會所開工，年底九百人',1952:'被捕入監，一千多位負責弟兄被捕',1962:'洛杉磯特會「包羅萬有的基督」',1972:'入監二十年，為眾召會殉道',1925:'聽汪佩真姊妹講道得救，當天蒙召',1932:'北方第一個召會在李家客廳興起',1933:'接倪弟兄的信，辭職全時間事奉',1943:'受日本人逼迫下監，出監患肺病',1958:'在洛杉磯首次講「神人調和」',1974:'十一年完成新約生命讀經',1984:'回台北改制，從大聚會轉到小排'};
+const BRIEF={1920:'十七歲在福州聽福音得救，同時蒙召',1922:'與王載夫婦擘餅，中國第一個召會',1927:'在上海開始擘餅，工作中心北移',1935:'講基督得勝的生命，帶進復興',1937:'釋放地方召會立場：一城一會',1939:'看見召會是基督的身體',1942:'上海召會反對，職事停止六年',1948:'反對者悔改，鼓嶺訓練同工',1949:'8 月 1 日台北一會所開工，年底九百人',1952:'被捕入監，一千多位負責弟兄被捕',1962:'洛杉磯特會「包羅萬有的基督」',1972:'入監二十年，為眾召會殉道',1925:'聽汪佩真姊妹講道得救，當天蒙召',1932:'北方第一個召會在李家客廳興起',1933:'接倪弟兄的信，辭職全時間事奉',1943:'受日本人逼迫下監，出監患肺病',1958:'在洛杉磯首次講「神人調和」',1974:'十一年完成新約生命讀經',1984:'回台北改制，從大聚會轉到小排',1994:'神成為人，使人成為神'};
 MILES.forEach(m=>m.brief=BRIEF[m.y]||'');
 const TAGS=[
  ['ni','得救的證實','得救的證實|知道得救|得救的確證'],
@@ -466,7 +470,8 @@ const TAGS=[
  ['lee','生命讀經與恢復本','生命讀經|恢復本'],
  ['lee','新路：家聚會、小排','新路|改制|叩門|小排|排聚會|家聚會'],
  ['lee','申言','申言'],
- ['lee','生機的建造','生機']
+ ['lee','生機的建造','生機'],
+ ['lee','神聖啟示的高峯','高峯|神成為人|人成為神|神人的生活|神人該有|神人生活']
 ].map(([who,label,re])=>({who,label,re:new RegExp(re)}));
 let TAG=null;
 const KEYOF=new Map(); MILES.forEach((m,mi)=>m.ids.forEach(id=>KEYOF.set(id,mi)));
@@ -507,7 +512,7 @@ function yLabel(k){
 const normBook=b=>String(b||'').replace(/（.*）$/,'').trim()||'其他';
 
 fetch('data.json').then(r=>r.json()).then(d=>{
-  ALL=d.map((e,i)=>({...e,i,k:Math.floor(e.y),book:normBook(e.book)}));
+  ALL=d.map((e,i)=>({...e,i,k:Math.floor(e.y),book:normBook(e.book)})).sort((a,b)=>a.y-b.y||a.i-b.i);
   const books=[...new Set(ALL.map(e=>e.book))].sort((a,b)=>ALL.filter(e=>e.book===b).length-ALL.filter(e=>e.book===a).length);
   $('#book').insertAdjacentHTML('beforeend',books.map(b=>`<option>${esc(b)}</option>`).join(''));
   $('#alln').textContent=TRUTHS.length;
@@ -522,7 +527,7 @@ function render(){
   const groups=new Map();
   VIEW.forEach(e=>{if(!groups.has(e.k))groups.set(e.k,[]);groups.get(e.k).push(e)});
   const keys=[...groups.keys()].sort((a,b)=>a-b);
-  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．15 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>滑鼠滾輪、觸控板或方向鍵 ← → 前進</li><li>每一欄可上下捲動，看同一年的所有事件</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul>${[['lee','李常受弟兄的重要事件'],['ni','倪柝聲弟兄的重要事件']].map(([w,lab])=>`<div class="jumps ${w}"><span class="jl">⚑ ${lab}</span>${MILES.map((m,i)=>m.who===w?`<button data-jump="${i}" title="${m.title}">${m.y}<span class="js">${m.short}</span></button>`:'').join('')}</div>`).join('')}<div class="tags"><div class="tl">✦ 真理重點　<small>點一下，只看相關的記載</small></div>${[['ni','倪柝聲弟兄'],['lee','李常受弟兄']].map(([w,n])=>`<div class="tg"><span class="tn">${n}</span>${TAGS.map((t,i)=>t.who===w?`<button data-tag="${i}"${TAG===t?' aria-pressed="true"':''}>${t.label}<b>${ALL.filter(e=>t.re.test(e.fact+' '+e.meaning+' '+e.truth)).length}</b></button>`:'').join('')}</div>`).join('')}</div><button class="go" id="go">開始 →</button></section>`;
+  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．19 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>滑鼠滾輪、觸控板或方向鍵 ← → 前進</li><li>每一欄可上下捲動，看同一年的所有事件</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul>${[['lee','李常受弟兄的重要事件'],['ni','倪柝聲弟兄的重要事件']].map(([w,lab])=>`<div class="jumps ${w}"><span class="jl">⚑ ${lab}</span>${MILES.map((m,i)=>m.who===w?`<button data-jump="${i}" title="${m.title}">${m.y}<span class="js">${m.short}</span></button>`:'').join('')}</div>`).join('')}<div class="tags"><div class="tl">✦ 真理重點　<small>點一下，只看相關的記載</small></div>${[['ni','倪柝聲弟兄'],['lee','李常受弟兄']].map(([w,n])=>`<div class="tg"><span class="tn">${n}</span>${TAGS.map((t,i)=>t.who===w?`<button data-tag="${i}"${TAG===t?' aria-pressed="true"':''}>${t.label}<b>${ALL.filter(e=>t.re.test(e.fact+' '+e.meaning+' '+e.truth)).length}</b></button>`:'').join('')}</div>`).join('')}</div><button class="go" id="go">開始 →</button></section>`;
   if(!keys.length) html+='<div class="empty">找不到符合的資料，換個關鍵字試試。</div>';
   let lastEra=-1, ci=0;
   const truthAt=new Map(), lampAt=new Map();
