@@ -89,6 +89,25 @@ body[data-mode="truth"] .card .fact{color:var(--gold-ink);font-weight:500}
 .truth i{font-style:normal;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--gold);color:var(--surface);font-size:10px;font-weight:700;flex:none}
 .truth span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
+/* milestones: 李弟兄在台灣、美國開工 */
+:root{--mile:#b8392c;--mile-ink:#fff;--mile-soft:#f6e1dd}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--mile:#d5604f;--mile-ink:#1a0d0a;--mile-soft:#3a1d18}}
+:root[data-theme="dark"]{--mile:#d5604f;--mile-ink:#1a0d0a;--mile-soft:#3a1d18}
+.mile{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:8px;background:var(--mile);color:var(--mile-ink);border-radius:8px;padding:6px 10px 6px 8px;box-shadow:var(--shadow)}
+.mile svg{width:22px;height:26px;flex:none}
+.mile b{display:block;font-family:var(--font-display);font-weight:900;font-size:15px;line-height:1.25}
+.mile small{display:block;font-size:11.5px;opacity:.9}
+.mile:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.col.milecol{background:color-mix(in oklab,var(--mile) 14%,var(--bg));box-shadow:inset 4px 0 0 var(--mile)}
+.col.milecol .axis .dot{border-color:var(--mile);background:var(--mile);width:17px;height:17px;margin-top:10px}
+.col.milecol .yr{color:var(--mile)}
+.card.key{border-left:5px solid var(--mile)}
+.card .kb{background:var(--mile);color:var(--mile-ink);border-radius:4px;padding:0 6px;font-weight:700}
+.mini .pin{position:absolute;top:-1px;bottom:-1px;width:3px;margin-left:-1px;background:var(--mile);padding:0;border:0;pointer-events:none}
+.start .jumps{display:flex;flex-wrap:wrap;gap:8px}
+.start .jumps button{all:unset;cursor:pointer;border:1.5px solid var(--mile);color:var(--mile);border-radius:6px;padding:5px 10px;font-size:13px;font-weight:700}
+.start .jumps button:focus-visible{outline:2px solid var(--gold)}
+
 /* era chapter */
 .chap{flex:0 0 min(360px,86vw);padding:28px 22px;display:flex;flex-direction:column;gap:12px;background:color-mix(in oklab,var(--era) 22%,var(--bg));border-left:4px solid color-mix(in oklab,var(--era) 70%,var(--ink));overflow-y:auto}
 .chap .no{font-size:12px;letter-spacing:.2em;color:var(--muted)}
@@ -153,6 +172,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   .lanes{min-height:0;padding:8px 10px 0;gap:4px}
   .lamp{font-size:13px}.lamp svg{width:18px;height:28px}
   .truth{font-size:11px}
+  .mile{padding:4px 8px 4px 6px}.mile b{font-size:13.5px}.mile small{font-size:10.5px}.mile svg{width:18px;height:22px}
   .axis{padding:2px 10px 6px}
   .axis::before{top:16px}
   .axis .dot{width:11px;height:11px;margin:8px 0 4px}
@@ -265,6 +285,20 @@ const TRUTHS=[
  [1984,'改制：神命定的路','1984 年'],
  [1987,'家聚會、排聚會','1987 年']
 ].map(([y,label,who])=>({y,label,who}));
+const MILES=[
+ {y:1949,title:'李弟兄在台灣開工',sub:'1949 年 8 月 1 日．台北一會所',
+  fact:'1949 年 4 月 28 日，倪弟兄打電報要李弟兄把上海會所的建造交出去；4 月 30 日李弟兄到台灣，撇下一切，隻身上飛機，這是他末次離開大陸。8 月 1 日在台北一會所正式開工，舉行第一次特別聚會；到年底從三十多人增加到九百人。',
+  meaning:'倪弟兄說，有人出去，地上就仍會有東西留下。台灣工作的正式開始：不摸公會，積極傳福音、講生命的道。',
+  note:'《重建》另說 1948 年 8 月在台北開工，兩說並存。',
+  src:'《歷程》第17篇；《正當教會生活的恢復》第十八篇；《主恢復當前的進展》第一章；《歷史與啟示》第10、15篇'},
+ {y:1962,title:'李弟兄在美國開工',sub:'1962 年．洛杉磯',
+  fact:'1960 年李弟兄到美國，1961 年 5 月底開始用英語講道。1962 年他取消台北特會，留在美國開工；與英格斯、馬健源在張宜綸家跪禱三週；12 月 21 日起在洛杉磯舉行十天特會「包羅萬有的基督」。',
+  meaning:'美國工作正式開始，始於禱告與靈；主的恢復從此進入英語世界。',
+  truth:'包羅萬有的基督；操練靈、人的靈',
+  note:'《重建》作 1961 或 1962 年，兩說並存。',
+  src:'《歷史與啟示》第14、20、24篇；《劃時代的帶領》；《重建》第3、9、10篇'}
+];
+const isKey=e=>e.y>=1948&&e.y<1963&&/開工|工作正式開始/.test(e.fact+e.meaning);
 
 const $=s=>document.querySelector(s);
 const track=$('#track');
@@ -307,12 +341,14 @@ function render(){
   const groups=new Map();
   VIEW.forEach(e=>{if(!groups.has(e.k))groups.set(e.k,[]);groups.get(e.k).push(e)});
   const keys=[...groups.keys()].sort((a,b)=>a-b);
-  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．15 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>滑鼠滾輪、觸控板或方向鍵 ← → 前進</li><li>每一欄可上下捲動，看同一年的所有事件</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul><button class="go" id="go">開始 →</button></section>`;
+  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．15 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>滑鼠滾輪、觸控板或方向鍵 ← → 前進</li><li>每一欄可上下捲動，看同一年的所有事件</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul><div class="jumps">${MILES.map((m,i)=>`<button data-jump="${i}">⚑ ${m.title}（${m.y}）</button>`).join('')}</div><button class="go" id="go">開始 →</button></section>`;
   if(!keys.length) html+='<div class="empty">找不到符合的資料，換個關鍵字試試。</div>';
   let lastEra=-1, ci=0;
   const truthAt=new Map(), lampAt=new Map();
   TRUTHS.forEach((t,i)=>{const k=keys.find(k=>k>=t.y);if(k!==undefined){(truthAt.get(k)||truthAt.set(k,[]).get(k)).push(i)}});
   Object.entries(LAMPS).forEach(([n,l])=>{const k=keys.find(k=>k>=l.y);if(k!==undefined){(lampAt.get(k)||lampAt.set(k,[]).get(k)).push(n)}});
+  const mileAt=new Map();
+  MILES.forEach((m,i)=>{const k=keys.find(k=>k>=m.y);if(k!==undefined&&k-m.y<=3)mileAt.set(k,i)});
   keys.forEach(k=>{
     const ei=eraOf(k), era=ERAS[ei];
     if(ei!==lastEra){
@@ -322,7 +358,8 @@ function render(){
     const evs=groups.get(k);
     const lamps=(lampAt.get(k)||[]).map(n=>`<button class="lamp" data-lamp="${n}">${lampSvg()}<span>${n}<br><small>${LAMPS[n].mean}</small></span></button>`).join('');
     const truths=(truthAt.get(k)||[]).map(i=>`<button class="truth" data-t="${i}" title="${esc(TRUTHS[i].who)}"><i>✦</i><span>${esc(TRUTHS[i].label)}</span></button>`).join('');
-    html+=`<section class="col" data-era="${ei}" data-k="${k}" style="--era:${era.hue}"><div class="lanes">${lamps}${truths}</div><div class="axis"><div class="dot"></div><div class="yr">${yLabel(k)}</div></div><div class="cards">${evs.map(cardHtml).join('')}</div></section>`;
+    const mi=mileAt.get(k), mile=mi===undefined?'':`<button class="mile" data-mile="${mi}">${flagSvg()}<span><b>${MILES[mi].title}</b><small>${MILES[mi].sub}</small></span></button>`;
+    html+=`<section class="col${mile?' milecol':''}" data-era="${ei}" data-k="${k}"${mile?` data-mile="${mi}"`:''} style="--era:${era.hue}"><div class="lanes">${mile}${lamps}${truths}</div><div class="axis"><div class="dot"></div><div class="yr">${yLabel(k)}</div></div><div class="cards">${evs.map(cardHtml).join('')}</div></section>`;
   });
   track.innerHTML=html;
   COLS=[...track.querySelectorAll('.col')];
@@ -330,21 +367,24 @@ function render(){
   buildMini();
   track.scrollLeft=0;
   onScroll();
+  track.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>{const c=track.querySelector(`.col[data-mile="${b.dataset.jump}"]`);if(c)track.scrollTo({left:c.offsetLeft-track.clientWidth*0.3});else showMile(+b.dataset.jump)});
   const go=$('#go'); if(go) go.onclick=()=>{const c=track.querySelector('.chap');if(c)track.scrollTo({left:c.offsetLeft-16})};
 }
 function cardHtml(e){
-  const when=e.ys.replace(/^約?主後\s*/,m=>m.startsWith('約')?'約 ':'');
-  if(MODE==='all') return `<button class="card" data-i="${e.i}"><div class="meta"><span class="when">${esc(e.ys)}</span>${e.place?`<span>${esc(e.place)}</span>`:''}</div><div class="fact">${esc(e.fact)}</div>${e.meaning?`<div class="part mean"><div class="lab">屬靈意義</div><div class="txt">${esc(e.meaning)}</div></div>`:''}${e.truth?`<div class="part tru"><div class="lab">✦ 真理進程</div><div class="txt">${esc(e.truth)}</div></div>`:''}<div class="foot"><span class="book">《${esc(e.book)}》</span></div></button>`;
+  const key=isKey(e), kc=key?' key':'', kb=key?'<span class="kb">⚑ 開工</span>':'';
+  if(MODE==='all') return `<button class="card${kc}" data-i="${e.i}"><div class="meta">${kb}<span class="when">${esc(e.ys)}</span>${e.place?`<span>${esc(e.place)}</span>`:''}</div><div class="fact">${esc(e.fact)}</div>${e.meaning?`<div class="part mean"><div class="lab">屬靈意義</div><div class="txt">${esc(e.meaning)}</div></div>`:''}${e.truth?`<div class="part tru"><div class="lab">✦ 真理進程</div><div class="txt">${esc(e.truth)}</div></div>`:''}<div class="foot"><span class="book">《${esc(e.book)}》</span></div></button>`;
   const lab=MODE==='fact'?'':`<div class="lab">${MODE_LABEL[MODE]}</div>`;
-  return `<button class="card" data-i="${e.i}"><div class="meta"><span class="when">${esc(e.ys)}</span>${e.place?`<span>${esc(e.place)}</span>`:''}</div>${lab}<div class="fact">${esc(e[MODE])}</div><div class="foot"><span class="book">《${esc(e.book)}》</span>${MODE!=='truth'&&e.truth?'<span class="tr">✦ 真理</span>':''}</div></button>`;
+  return `<button class="card${kc}" data-i="${e.i}"><div class="meta">${kb}<span class="when">${esc(e.ys)}</span>${e.place?`<span>${esc(e.place)}</span>`:''}</div>${lab}<div class="fact">${esc(e[MODE])}</div><div class="foot"><span class="book">《${esc(e.book)}》</span>${MODE!=='truth'&&e.truth?'<span class="tr">✦ 真理</span>':''}</div></button>`;
 }
 function lampSvg(){return `<svg viewBox="0 0 22 34" aria-hidden="true"><path class="flame" d="M11 2c3 4 4 6 4 8a4 4 0 0 1-8 0c0-2 1-4 4-8z"/><rect x="9.5" y="14" width="3" height="12" rx="1" fill="currentColor" opacity=".7"/><path d="M4 32h14l-2-5H6z" fill="currentColor" opacity=".7"/><rect x="5" y="12" width="12" height="2.5" rx="1.2" fill="currentColor" opacity=".7"/></svg>`}
 
+function flagSvg(){return `<svg viewBox="0 0 22 26" aria-hidden="true"><rect x="3" y="2" width="2.4" height="23" rx="1" fill="currentColor"/><path d="M5.4 3h13l-3 4.5 3 4.5h-13z" fill="currentColor"/></svg>`}
 function buildMini(){
   const mini=$('#mini'), counts=new Map();
   COLS.forEach(c=>counts.set(+c.dataset.era,(counts.get(+c.dataset.era)||0)+1));
-  const tot=COLS.length||1;
-  mini.innerHTML=[...counts].map(([ei,n])=>`<div data-era="${ei}" style="--era:${ERAS[ei].hue};flex:${n} 1 0" title="${ERAS[ei].name}">${ERAS[ei].name}</div>`).join('')+'<span class="view" id="view"></span>';
+  const sw=track.scrollWidth||1;
+  const pins=[...track.querySelectorAll('.col[data-mile]')].map(c=>`<span class="pin" style="left:${(c.offsetLeft+c.offsetWidth/2)/sw*100}%" title="${MILES[+c.dataset.mile].title}"></span>`).join('');
+  mini.innerHTML=[...counts].map(([ei,n])=>`<div data-era="${ei}" style="--era:${ERAS[ei].hue};flex:${n} 1 0" title="${ERAS[ei].name}">${ERAS[ei].name}</div>`).join('')+pins+'<span class="view" id="view"></span>';
 }
 let ticking=false;
 track.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{ticking=false;onScroll()})}},{passive:true});
@@ -402,9 +442,16 @@ function showTruth(i){
   $('#dbody').innerHTML=`<div class="sec tru"><h3>真理的恢復</h3><p>${esc(t.label)}：${esc(t.who)}。</p></div>${rel.length?`<div class="sec"><h3>相關記載</h3>${rel.map(e=>`<p style="margin-bottom:10px"><b>${esc(e.ys)}</b>　${esc(e.truth)}<br><span style="color:var(--muted);font-size:13px">${esc(e.src||e.book)}</span></p>`).join('')}</div>`:''}`;
   $('.nav').hidden=true; openD();
 }
+function showMile(i){
+  const m=MILES[i]; curI=-1;
+  $('#dy').textContent='⚑ '+m.title; $('#dp').textContent=m.sub;
+  $('#dbody').innerHTML=`<div class="sec"><h3>史實</h3><p>${esc(m.fact)}</p></div><div class="sec"><h3>屬靈意義</h3><p>${esc(m.meaning)}</p></div>${m.truth?`<div class="sec tru"><h3>真理進程</h3><p>${esc(m.truth)}</p></div>`:''}<div class="sec src"><h3>出處</h3><p>${esc(m.src)}<br>${esc(m.note)}</p></div>`;
+  $('.nav').hidden=true; openD();
+}
 function step(d){ if(curI<0)return; const n=VIEW[curI+d]; if(n){showEvent(n.i); const c=track.querySelector(`.card[data-i="${n.i}"]`); if(c){const col=c.closest('.col'); track.scrollTo({left:col.offsetLeft-track.clientWidth/2+col.offsetWidth/2}); c.scrollIntoView({block:'nearest'})}} }
 track.addEventListener('click',ev=>{
   const c=ev.target.closest('.card'); if(c)return showEvent(+c.dataset.i);
+  const mb=ev.target.closest('.mile'); if(mb)return showMile(+mb.dataset.mile);
   const l=ev.target.closest('.lamp'); if(l)return showLamp(l.dataset.lamp);
   const t=ev.target.closest('.truth'); if(t)return showTruth(+t.dataset.t);
 });
