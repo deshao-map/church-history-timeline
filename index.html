@@ -250,6 +250,20 @@ html[data-view="pc"] .drawer{width:min(560px,100%)}
 html[data-view="pc"] .drawer .dy{font-size:28px}
 html[data-view="pc"] .sec h3{font-size:13px}
 html[data-view="pc"] .sec p{font-size:17px}
+.start .tags{display:flex;flex-direction:column;gap:8px}
+.start .tl{font-size:13px;font-weight:700;color:var(--gold-ink)}
+.start .tl small{font-weight:400;color:var(--muted)}
+.start .tg{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.start .tn{width:100%;font-size:12px;color:var(--muted)}
+.start .tg button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:5px;background:var(--gold-soft);color:var(--gold-ink);border:1px solid color-mix(in oklab,var(--gold) 40%,transparent);border-radius:999px;padding:3px 10px;font-size:13px;font-weight:500}
+.start .tg button b{font-size:11px;font-weight:500;opacity:.7;font-variant-numeric:tabular-nums}
+.start .tg button:hover,.start .tg button[aria-pressed="true"]{background:var(--gold);color:var(--surface);border-color:var(--gold)}
+.start .tg button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.tagchip{all:unset;cursor:pointer;flex:none;background:var(--gold);color:var(--surface);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700;white-space:nowrap}
+.tagchip:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+html[data-view="phone"] .tagchip{flex:1 1 100%;text-align:center;font-size:12.5px}
+html[data-view="pc"] .start .tg button,html[data-view="pc"] .start .tl,html[data-view="pc"] .tagchip{font-size:14.5px}
+html[data-view="pc"] .start .tn{font-size:13px}
 .homebtn{all:unset;cursor:pointer;position:fixed;z-index:10;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(var(--bottomh,70px) + 14px);display:flex;align-items:center;gap:6px;background:var(--ink);color:var(--bg);border-radius:999px;padding:8px 14px 8px 11px;font-size:13.5px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.22);transition:opacity .25s,transform .25s}
 .homebtn[aria-hidden="true"]{opacity:0;transform:translateY(8px);pointer-events:none}
 .homebtn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
@@ -276,6 +290,7 @@ document.documentElement.dataset.view=(v==='phone'||v==='pc')?v:(matchMedia('(ma
       <button data-m="meaning" aria-pressed="false">屬靈意義</button>
       <button data-m="truth" aria-pressed="false">真理進程</button>
     </div>
+    <button class="tagchip" id="tagchip" type="button" hidden aria-label="取消真理重點篩選"></button>
     <input id="q" type="search" placeholder="搜尋人物、地點、真理" aria-label="搜尋">
     <select id="book" aria-label="依書報篩選"><option value="">全部書報</option></select>
     <span class="count" id="count"></span>
@@ -426,6 +441,34 @@ const SHORT={1920:'得救',1922:'開始擘餅',1927:'移到上海',1935:'煙台�
 MILES.forEach(m=>m.short=SHORT[m.y]||'');
 const BRIEF={1920:'十七歲在福州聽福音得救，同時蒙召',1922:'與王載夫婦擘餅，中國第一個召會',1927:'在上海開始擘餅，工作中心北移',1935:'講基督得勝的生命，帶進復興',1937:'釋放地方召會立場：一城一會',1939:'看見召會是基督的身體',1942:'上海召會反對，職事停止六年',1948:'反對者悔改，鼓嶺訓練同工',1949:'8 月 1 日台北一會所開工，年底九百人',1952:'被捕入監，一千多位負責弟兄被捕',1962:'洛杉磯特會「包羅萬有的基督」',1972:'入監二十年，為眾召會殉道',1925:'聽汪佩真姊妹講道得救，當天蒙召',1932:'北方第一個召會在李家客廳興起',1933:'接倪弟兄的信，辭職全時間事奉',1943:'受日本人逼迫下監，出監患肺病',1958:'在洛杉磯首次講「神人調和」',1974:'十一年完成新約生命讀經',1984:'回台北改制，從大聚會轉到小排'};
 MILES.forEach(m=>m.brief=BRIEF[m.y]||'');
+const TAGS=[
+ ['ni','得救的證實','得救的證實|知道得救|得救的確證'],
+ ['ni','受浸與擘餅','受浸|擘餅|主的桌子'],
+ ['ni','脫離宗派','脫離宗派|脫離公會|宗派之罪'],
+ ['ni','普遍的祭司職任','祭司職任|聖品|居間階級'],
+ ['ni','人的三部分','三部分|屬靈人'],
+ ['ni','得勝者','得勝者|得勝聚會'],
+ ['ni','基督得勝的生命','得勝的生命'],
+ ['ni','聖靈的澆灌','澆灌'],
+ ['ni','地方召會的立場','立場|一地一會|一城一會|一個城只'],
+ ['ni','基督的身體','身體'],
+ ['ni','外面人的破碎','破碎'],
+ ['ni','耶路撒冷路線','耶路撒冷(路線|原則)'],
+ ['ni','移民','移民'],
+ ['lee','吃喝享受主','吃.{0,2}主|喝主|享受主|吃基督|享受基督'],
+ ['lee','神人調和','調和'],
+ ['lee','包羅萬有的基督','包羅萬有'],
+ ['lee','神的經綸','經綸|神的經營'],
+ ['lee','禱讀與呼求主名','禱讀|呼求'],
+ ['lee','七倍加強的靈','七倍'],
+ ['lee','賜生命的靈','賜生命的靈|那靈'],
+ ['lee','召會是新人','新人'],
+ ['lee','生命讀經與恢復本','生命讀經|恢復本'],
+ ['lee','新路：家聚會、小排','新路|改制|叩門|小排|排聚會|家聚會'],
+ ['lee','申言','申言'],
+ ['lee','生機的建造','生機']
+].map(([who,label,re])=>({who,label,re:new RegExp(re)}));
+let TAG=null;
 const KEYOF=new Map(); MILES.forEach((m,mi)=>m.ids.forEach(id=>KEYOF.set(id,mi)));
 
 const $=s=>document.querySelector(s);
@@ -474,17 +517,18 @@ fetch('data.json').then(r=>r.json()).then(d=>{
 
 function render(){
   const q=$('#q').value.trim(), bk=$('#book').value;
-  VIEW=ALL.filter(e=>(MODE==='all'||e[MODE])&&(!bk||e.book===bk)&&(!q||[e.ys,e.place,e.fact,e.meaning,e.truth,e.src].join(' ').includes(q)));
+  VIEW=ALL.filter(e=>(MODE==='all'||e[MODE])&&(!TAG||TAG.re.test(e.fact+' '+e.meaning+' '+e.truth))&&(!bk||e.book===bk)&&(!q||[e.ys,e.place,e.fact,e.meaning,e.truth,e.src].join(' ').includes(q)));
   $('#count').textContent=`${VIEW.length} 則${MODE_LABEL[MODE]||''}`;
   const groups=new Map();
   VIEW.forEach(e=>{if(!groups.has(e.k))groups.set(e.k,[]);groups.get(e.k).push(e)});
   const keys=[...groups.keys()].sort((a,b)=>a-b);
-  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．15 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>滑鼠滾輪、觸控板或方向鍵 ← → 前進</li><li>每一欄可上下捲動，看同一年的所有事件</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul>${[['lee','李常受弟兄的重要事件'],['ni','倪柝聲弟兄的重要事件']].map(([w,lab])=>`<div class="jumps ${w}"><span class="jl">⚑ ${lab}</span>${MILES.map((m,i)=>m.who===w?`<button data-jump="${i}" title="${m.title}">${m.y}<span class="js">${m.short}</span></button>`:'').join('')}</div>`).join('')}<button class="go" id="go">開始 →</button></section>`;
+  let html=`<section class="start" style="--era:var(--gold)"><div class="no tip">${ALL.length} 則史實．15 本書報</div><h2>「主的恢復乃是裏面的生命往外擴展。」</h2><div class="cite">——《歷史與啟示》第二十篇</div><p>依李常受、倪柝聲弟兄的書報整理：每個年份有史實、屬靈意義與真理的進程。金色徽章是被恢復的真理，燈臺是啟示錄二、三章的七個召會。</p><ul><li>滑鼠滾輪、觸控板或方向鍵 ← → 前進</li><li>每一欄可上下捲動，看同一年的所有事件</li><li>底部的菱形會隨你走過的歷史逐一點亮</li></ul>${[['lee','李常受弟兄的重要事件'],['ni','倪柝聲弟兄的重要事件']].map(([w,lab])=>`<div class="jumps ${w}"><span class="jl">⚑ ${lab}</span>${MILES.map((m,i)=>m.who===w?`<button data-jump="${i}" title="${m.title}">${m.y}<span class="js">${m.short}</span></button>`:'').join('')}</div>`).join('')}<div class="tags"><div class="tl">✦ 真理重點　<small>點一下，只看相關的記載</small></div>${[['ni','倪柝聲弟兄'],['lee','李常受弟兄']].map(([w,n])=>`<div class="tg"><span class="tn">${n}</span>${TAGS.map((t,i)=>t.who===w?`<button data-tag="${i}"${TAG===t?' aria-pressed="true"':''}>${t.label}<b>${ALL.filter(e=>t.re.test(e.fact+' '+e.meaning+' '+e.truth)).length}</b></button>`:'').join('')}</div>`).join('')}</div><button class="go" id="go">開始 →</button></section>`;
   if(!keys.length) html+='<div class="empty">找不到符合的資料，換個關鍵字試試。</div>';
   let lastEra=-1, ci=0;
   const truthAt=new Map(), lampAt=new Map();
-  TRUTHS.forEach((t,i)=>{const k=keys.find(k=>k>=t.y);if(k!==undefined){(truthAt.get(k)||truthAt.set(k,[]).get(k)).push(i)}});
-  Object.entries(LAMPS).forEach(([n,l])=>{const k=keys.find(k=>k>=l.y);if(k!==undefined){(lampAt.get(k)||lampAt.set(k,[]).get(k)).push(n)}});
+  const near=(k,y)=>k!==undefined&&(!(TAG||q||bk)||k-y<=3);
+  TRUTHS.forEach((t,i)=>{const k=keys.find(k=>k>=t.y);if(near(k,t.y)){(truthAt.get(k)||truthAt.set(k,[]).get(k)).push(i)}});
+  Object.entries(LAMPS).forEach(([n,l])=>{const k=keys.find(k=>k>=l.y);if(near(k,l.y)){(lampAt.get(k)||lampAt.set(k,[]).get(k)).push(n)}});
   const mileAt=new Map();
   MILES.forEach((m,i)=>{const k=keys.find(k=>k>=m.y);if(k!==undefined&&k-m.y<=3)mileAt.set(k,i)});
   keys.forEach(k=>{
@@ -506,6 +550,8 @@ function render(){
   track.scrollLeft=0;
   onScroll();
   track.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>{const c=track.querySelector(`.col[data-mile="${b.dataset.jump}"]`);if(c)track.scrollTo({left:c.offsetLeft-track.clientWidth*0.3});else showMile(+b.dataset.jump)});
+  track.querySelectorAll('[data-tag]').forEach(b=>b.onclick=()=>setTag(TAGS[+b.dataset.tag]));
+  const chip=$('#tagchip'); chip.hidden=!TAG; if(TAG)chip.innerHTML=`✦ ${TAG.label}　<span aria-hidden="true">×</span>`;
   const go=$('#go'); if(go) go.onclick=()=>{const c=track.querySelector('.chap');if(c)track.scrollTo({left:c.offsetLeft-16})};
 }
 function cardHtml(e){
@@ -532,6 +578,11 @@ function buildMini(){
 }
 let ticking=false;
 track.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{ticking=false;onScroll()})}},{passive:true});
+function setTag(t){
+  TAG=(TAG===t)?null:t; render();
+  if(TAG){const c=track.querySelector('.col'); if(c){track.style.scrollBehavior='auto'; track.scrollLeft=c.offsetLeft-16; track.style.scrollBehavior=''; onScroll()}}
+}
+document.getElementById('tagchip').onclick=()=>{TAG=null;render()};
 const homeBtn=document.getElementById('homebtn');
 function goHome(){track.style.scrollBehavior='auto';track.scrollLeft=0;track.style.scrollBehavior='';onScroll()}
 homeBtn.onclick=goHome; document.querySelector('.brand h1').onclick=goHome;
